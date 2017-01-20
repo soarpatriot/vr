@@ -38,7 +38,11 @@ defmodule Vr.Mixfile do
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 3.0"},
      {:cors_plug, "~> 1.1"},
-     {:ex_machina, "~> 1.0"}]
+     {:ex_machina, "~> 1.0"},
+     {:joken, "~> 1.1"},
+     {:libsodium, "~> 0.0.3"},
+     {:keccakf1600, "~> 0.0.1"},
+     {:libdecaf, "~> 0.0.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

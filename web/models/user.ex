@@ -20,15 +20,21 @@ defmodule Vr.User do
     |> validate_required([:name, :email, :password])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
-    |> validate_length(:password, min: 5)
+    |> validate_length(:password, min: 6)
   end
 
-  def hashed_password(password) do
-    case password do 
-      nil ->
-        password
+  def registration_changeset(model, params \\ :empty) do
+    model
+    |> changeset(params)
+    |> put_password_hash
+  end
+ 
+  defp put_password_hash(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
+        put_change(changeset, :crypted_password, Comeonin.Bcrypt.hashpwsalt(pass))
       _ ->
-        Comeonin.Bcrypt.hashpwsalt(password)
+        changeset
     end
   end
 end
