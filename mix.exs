@@ -42,7 +42,8 @@ defmodule Vr.Mixfile do
      {:joken, "~> 1.1"},
      {:libsodium, "~> 0.0.3"},
      {:keccakf1600, "~> 0.0.1"},
-     {:libdecaf, "~> 0.0.1"}]
+     {:libdecaf, "~> 0.0.1"},
+     {:mellon, "~> 0.1.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

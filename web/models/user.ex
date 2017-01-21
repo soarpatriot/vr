@@ -1,5 +1,6 @@
 defmodule Vr.User do
   use Vr.Web, :model
+  import Joken
 
   schema "users" do
     field :name, :string
@@ -37,4 +38,21 @@ defmodule Vr.User do
         changeset
     end
   end
+
+  def generate_token(user) do  
+    %{user_id: user.id}
+    |> token
+    |> with_validation("user_id", &(&1 == 1))
+    |> with_signer(hs256("my-loved-vr"))
+    |> sign
+    |> get_compact
+  end  
+  
+  def verify_token(token_str) do 
+    token_str
+      |> token
+      |> with_signer(hs256("my-loved-vr"))
+      |> verify 
+  end
+
 end
