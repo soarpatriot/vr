@@ -36,6 +36,9 @@ defmodule Vr.Endpoint do
     key: "_vr_key",
     signing_salt: "A7kXFSA9"
 
-  plug CORSPlug
+  plug CORSPlug, [
+    origin: "*", 
+    headers: ["api-token" | CORSPlug.defaults[:headers]]
+  ]
   plug Vr.Router
 end

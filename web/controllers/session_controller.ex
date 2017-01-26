@@ -2,7 +2,7 @@ defmodule Vr.SessionController do
   use Vr.Web, :controller
   alias Vr.User
   alias Vr.Session
-  
+  require IEx  
   def create(conn, %{"session" => session_params}) do 
     session = Session.login(session_params, Vr.Repo)  
     case session do 
@@ -20,7 +20,8 @@ defmodule Vr.SessionController do
   end
 
   def validate(conn, params) do  
-    user = Repo.get!(User, params["user_id"])
+    user_id = conn.assigns.credentials["user_id"]
+    user = Repo.get!(User, user_id)
     conn
     |> put_status(200)
     |> render(Vr.UserView,"user.json", user: user)
