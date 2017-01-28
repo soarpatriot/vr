@@ -19,7 +19,7 @@ defmodule Vr.SessionControllerTest do
       
       }
   end
-  test "invalida token", %{conn: conn, user: user} do
+  test "invalida token", %{conn: conn, user: _user} do
     conn = put_req_header(conn, "api-token", "Token: " <> "invalid token")
     conn = get conn, session_path(conn, :validate)
     assert json_response(conn, 401) 

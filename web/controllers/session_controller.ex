@@ -19,7 +19,7 @@ defmodule Vr.SessionController do
     end
   end
 
-  def validate(conn, params) do  
+  def validate(conn, _params) do  
     user_id = conn.assigns.credentials["user_id"]
     user = Repo.get!(User, user_id)
     conn
