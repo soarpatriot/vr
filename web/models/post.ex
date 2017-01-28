@@ -17,4 +17,11 @@ defmodule Vr.Post do
     |> cast(params, [:user_id, :title, :description])
     |> validate_required([:user_id, :title, :description])
   end
+
+  def change_user_id(post, user_id) do 
+    change(post, user_id: user_id)
+  end
+
+  def with_id_user_id(id, user_id) do 
+  end
 end

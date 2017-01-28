@@ -4,10 +4,12 @@ defmodule Vr.PostControllerTest do
 
   alias Vr.User
   alias Vr.Post
-  @valid_attrs %{description: "some content", title: "some content", user_id: 42}
   @invalid_attrs %{}
+  @valid_attrs %{description: "some content", title: "some content", user_id: 11}
+  
   setup do
     user = insert(:user)
+
     token = User.generate_token(user)
     conn = build_conn() |> put_req_header( "accept", "application/json")
                         |> put_req_header( "api-token", "Token: " <> token)
@@ -35,10 +37,11 @@ defmodule Vr.PostControllerTest do
     end
   end
 
-  test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, post_path(conn, :create), post: @valid_attrs
+  test "creates and renders resource when data is valid", %{conn: conn, user: user} do
+    attr = put_in @valid_attrs[:user_id], user.id
+    conn = post conn, post_path(conn, :create), post: attr
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(Post, @valid_attrs)
+    assert Repo.get_by(Post, attr)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -46,16 +49,18 @@ defmodule Vr.PostControllerTest do
     assert json_response(conn, 422)["errors"] != %{}
   end
 
-  test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    post = Repo.insert! %Post{}
-    conn = put conn, post_path(conn, :update, post), post: @valid_attrs
+  test "updates and renders chosen resource when data is valid", %{conn: conn, user: user} do
+    post = Repo.insert! %Post{user_id: user.id}
+    attrs = put_in @valid_attrs[:user_id], user.id
+    conn = put conn, post_path(conn, :update, post), post: attrs
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(Post, @valid_attrs)
+    assert Repo.get_by(Post, attrs)
   end
 
-  test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    post = Repo.insert! %Post{}
-    conn = put conn, post_path(conn, :update, post), post: @invalid_attrs
+  test "does not update chosen resource and renders errors when data is invalid", %{conn: conn, user: user} do
+    post = Repo.insert! %Post{user_id: user.id}
+    attrs = put_in @invalid_attrs[:user_id], user.id
+    conn = put conn, post_path(conn, :update, post), post: attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 

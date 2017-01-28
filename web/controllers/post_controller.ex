@@ -1,6 +1,6 @@
 defmodule Vr.PostController do
   use Vr.Web, :controller
-
+  require IEx
   alias Vr.Post
 
   def index(conn, _params) do
@@ -9,7 +9,8 @@ defmodule Vr.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
-    changeset = Post.changeset(%Post{}, post_params)
+    user_id = conn.assigns.credentials["user_id"]
+    changeset = Post.changeset(%Post{user_id: user_id}, post_params)
 
     case Repo.insert(changeset) do
       {:ok, post} ->
@@ -30,7 +31,11 @@ defmodule Vr.PostController do
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do
-    post = Repo.get!(Post, id)
+    user_id = conn.assigns.credentials["user_id"]
+    # post = Repo.get!(Post, id)
+    # query = from p in Post, where: [id: ^id, user_id: ^user_id]
+    #post = Repo.one |> where([p], p.id == id, p.user_id == user_id)
+    post = Repo.get_by(Post, %{id: id, user_id: user_id})
     changeset = Post.changeset(post, post_params)
 
     case Repo.update(changeset) do
