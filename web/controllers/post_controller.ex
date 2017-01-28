@@ -36,15 +36,22 @@ defmodule Vr.PostController do
     # query = from p in Post, where: [id: ^id, user_id: ^user_id]
     #post = Repo.one |> where([p], p.id == id, p.user_id == user_id)
     post = Repo.get_by(Post, %{id: id, user_id: user_id})
-    changeset = Post.changeset(post, post_params)
+    if is_nil(post) do 
+      conn
+        |> put_status(:not_found)
+        |> render(Vr.ChangesetView, "not_found.json", msg: "无此post")
+   
+    else 
+      changeset = Post.changeset(post, post_params)
 
-    case Repo.update(changeset) do
-      {:ok, post} ->
-        render(conn, "show.json", post: post)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Vr.ChangesetView, "error.json", changeset: changeset)
+      case Repo.update(changeset) do
+        {:ok, post} ->
+          render(conn, "show.json", post: post)
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> render(Vr.ChangesetView, "error.json", changeset: changeset)
+      end
     end
   end
 

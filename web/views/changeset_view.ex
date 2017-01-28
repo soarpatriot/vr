@@ -16,4 +16,10 @@ defmodule Vr.ChangesetView do
     # as a JSON object. So we just pass it forward.
     %{errors: translate_errors(changeset)}
   end
+  def render("not_found.json", %{msg: msg}) do
+    # When encoded, the changeset returns its errors
+    # as a JSON object. So we just pass it forward.
+    %{msg: msg}
+  end
+
 end
