@@ -3,7 +3,7 @@ defmodule Vr.FileTest do
 
   alias Vr.File
 
-  @valid_attrs %{post_id: 2, filename: "some content", full: "some content", mimetype: "some content", relitive: "some content", size: 42}
+  @valid_attrs %{post_id: 2, filename: "some content", full: "some content", mimetype: "some content", relative: "some content", size: 42}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

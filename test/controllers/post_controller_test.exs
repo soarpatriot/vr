@@ -5,8 +5,8 @@ defmodule Vr.PostControllerTest do
   alias Vr.User
   alias Vr.Post
   @invalid_attrs %{}
-  @valid_attrs %{description: "some content", title: "some content", user_id: 11}
-  
+  @valid_attrs %{description: "some content", title: "some content", user_id: 11} 
+  @file_attrs  %{ filename: "aa", relative: "bb", full: "cc", size: 30, mimetype: "jpeg" }  
   setup do
     user = insert(:user)
 
@@ -39,7 +39,8 @@ defmodule Vr.PostControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn, user: user} do
     attr = put_in @valid_attrs[:user_id], user.id
-    conn = post conn, post_path(conn, :create), post: attr
+    attr_with_file = put_in(attr[:file], @file_attrs)
+    conn = post conn, post_path(conn, :create), post: attr_with_file
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Post, attr)
   end

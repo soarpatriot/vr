@@ -4,7 +4,7 @@ defmodule Vr.File do
   schema "files" do
     field :filename, :string
     field :mimetype, :string
-    field :relitive, :string
+    field :relative, :string
     field :full, :string
     field :size, :integer
 
@@ -18,7 +18,7 @@ defmodule Vr.File do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:post_id, :filename, :mimetype, :relitive, :full, :size])
-    |> validate_required([:post_id, :filename, :mimetype, :relitive, :full, :size])
+    |> cast(params, [:post_id, :filename, :mimetype, :relative, :full, :size])
+    |> validate_required([:filename, :mimetype, :relative, :full, :size])
   end
 end

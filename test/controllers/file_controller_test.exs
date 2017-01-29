@@ -6,7 +6,7 @@ defmodule Vr.FileControllerTest do
   alias Vr.User
   @valid_attrs %{filename: "some content", 
    full: "some content", 
-   mimetype: "some content", relitive: "some content", size: 42, post_id: 12}
+   mimetype: "some content", relative: "some content", size: 42, post_id: 12}
   @invalid_attrs %{}
 
   setup do
@@ -33,7 +33,7 @@ defmodule Vr.FileControllerTest do
     assert json_response(conn, 200)["data"] == %{"id" => file.id,
       "filename" => file.filename,
       "mimetype" => file.mimetype,
-      "relitive" => file.relitive,
+      "relative" => file.relative,
       "full" => file.full,
       "size" => file.size}
   end

@@ -13,7 +13,7 @@ defmodule Vr.FileView do
     %{id: file.id,
       filename: file.filename,
       mimetype: file.mimetype,
-      relitive: file.relitive,
+      relative: file.relative,
       full: file.full,
       size: file.size}
   end

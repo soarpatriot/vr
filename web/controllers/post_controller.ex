@@ -2,6 +2,7 @@ defmodule Vr.PostController do
   use Vr.Web, :controller
   require IEx
   alias Vr.Post
+  alias Vr.File
 
   def index(conn, _params) do
     posts = Repo.all(Post)
@@ -10,19 +11,35 @@ defmodule Vr.PostController do
 
   def create(conn, %{"post" => post_params}) do
     user_id = conn.assigns.credentials["user_id"]
-    changeset = Post.changeset(%Post{user_id: user_id}, post_params)
+    # params = Map.merge(post_params, %{user_id: user_id})
+    file_params = post_params["file"]
+	  changeset = Post.changeset(%Post{user_id: user_id}, post_params)
+    case is_nil(file_params) do 
+      false ->
+				file_changeset = File.changeset(%File{}, file_params)
+        changes = changeset
+											|> Ecto.Changeset.put_assoc(:file, file_changeset)
+				case  Repo.insert(changes) do
+					{:ok, post} ->
+            # p = Post |> preload(:file) |> Repo.get(post.id)
+            # IO.inspect p
+						conn
+						|> put_status(:created)
+						|> put_resp_header("location", post_path(conn, :show, post))
+						|> render("show.json", post: post)
+					{:error, changeset} ->
+						conn
+						|> put_status(:unprocessable_entity)
+						|> render(Vr.ChangesetView, "error.json", changeset: changeset)
 
-    case Repo.insert(changeset) do
-      {:ok, post} ->
-        conn
-        |> put_status(:created)
-        |> put_resp_header("location", post_path(conn, :show, post))
-        |> render("show.json", post: post)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Vr.ChangesetView, "error.json", changeset: changeset)
-    end
+				end
+      true ->
+        error_changes = Ecto.Changeset.add_error(changeset, :file, "empty", additional: "file should not be empty")
+ 				conn
+				  |> put_status(:unprocessable_entity)
+					|> render(Vr.ChangesetView, "error.json", changeset: error_changes)
+    end 
+   # end 
   end
 
   def show(conn, %{"id" => id}) do
