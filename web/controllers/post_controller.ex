@@ -5,7 +5,7 @@ defmodule Vr.PostController do
   alias Vr.File
 
   def index(conn, _params) do
-    posts = Repo.all(Post)
+    posts = Repo.all(Post) |> Repo.preload([:file, :user])
     render(conn, "index.json", posts: posts)
   end
 
@@ -43,7 +43,7 @@ defmodule Vr.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Repo.get!(Post, id)
+    post = Post |> preload(:file) |> Repo.get!(id)
     render(conn, "show.json", post: post)
   end
 
@@ -52,7 +52,9 @@ defmodule Vr.PostController do
     # post = Repo.get!(Post, id)
     # query = from p in Post, where: [id: ^id, user_id: ^user_id]
     #post = Repo.one |> where([p], p.id == id, p.user_id == user_id)
-    post = Repo.get_by(Post, %{id: id, user_id: user_id})
+    post = Post 
+              |> Post.with_user_file
+              |> Repo.get_by(%{id: id, user_id: user_id})
     if is_nil(post) do 
       conn
         |> put_status(:not_found)
@@ -63,7 +65,7 @@ defmodule Vr.PostController do
 
       case Repo.update(changeset) do
         {:ok, post} ->
-          render(conn, "show.json", post: post)
+          render(conn, "show-extra.json", post: post)
         {:error, changeset} ->
           conn
           |> put_status(:unprocessable_entity)
