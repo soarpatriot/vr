@@ -11,13 +11,14 @@ defmodule Vr.Router do
 
   scope "/", Vr do
     pipe_through :api
+    get "posts", PostController, :index
     resources "/users", UserController, except: [:new, :edit]
     post "/login", SessionController, :create
   end
   scope "/", Vr do
     pipe_through :api
     pipe_through :authenticated
-    resources "/posts", PostController, except: [:new, :edit]
+    resources "/posts", PostController, except: [:new, :edit, :index]
     resources "/files", FileController, except: [:new, :edit]
     get "/validate", SessionController, :validate
   end

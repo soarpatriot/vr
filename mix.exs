@@ -19,7 +19,7 @@ defmodule Vr.Mixfile do
   def application do
     [mod: {Vr, []},
      applications: [:ex_machina, :phoenix, :phoenix_pubsub, :cowboy, :logger, :gettext,:comeonin,
-                    :phoenix_ecto, :postgrex]]
+                    :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -43,6 +43,8 @@ defmodule Vr.Mixfile do
      {:libsodium, "~> 0.0.3"},
      {:keccakf1600, "~> 0.0.1"},
      {:libdecaf, "~> 0.0.1"},
+     {:scrivener_headers, "~> 3.0"},
+     {:scrivener_ecto, "~> 1.1.3"},
      {:mellon, "~> 0.1.1"}]
   end
 
