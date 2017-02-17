@@ -4,9 +4,14 @@ defmodule Vr.PostController do
   alias Vr.Post
   alias Vr.File
 
-  def index(conn, _params) do
-    posts = Repo.all(Post) |> Repo.preload([:file, :user])
-    render(conn, "index.json", posts: posts)
+  def index(conn, params) do
+    page = Post
+            |> Repo.paginate(params)
+    posts = page.entries
+            |> Repo.preload([:file, :user])
+    conn 
+      |> Scrivener.Headers.paginate(page)
+      |> render("index.json", posts: posts)
   end
 
   def create(conn, %{"post" => post_params}) do
