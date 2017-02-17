@@ -15,7 +15,7 @@ defmodule Vr.SessionController do
       :error -> 
         conn
           |> put_status(:unprocessable_entity)
-          |> render("error.json", message: "用户名密码错误!")
+          |> render("error.json", msg: "用户名密码错误!")
     end
   end
 
