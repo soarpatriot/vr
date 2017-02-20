@@ -1,7 +1,5 @@
 defmodule Vr.Post do
   use Vr.Web, :model
-  alias Vr.File
-  alias Vr.Repo
   schema "posts" do
     field :title, :string
     field :description, :string

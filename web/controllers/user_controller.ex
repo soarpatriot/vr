@@ -1,7 +1,7 @@
 defmodule Vr.UserController do
   use Vr.Web, :controller
   alias Vr.User
-  import Ecto.Changeset, only: [put_change: 3]
+  #  import Ecto.Changeset, only: [put_change: 3]
 
   def index(conn, _params) do
     users = Repo.all(User)

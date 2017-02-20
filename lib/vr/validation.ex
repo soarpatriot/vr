@@ -1,7 +1,5 @@
 defmodule Vr.Validation do
-  import Joken
   alias Vr.User
-  require IEx
   def validate({conn, token}) do
     User.verify_token(token)
     |> handle(conn)

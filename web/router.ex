@@ -11,7 +11,7 @@ defmodule Vr.Router do
 
   scope "/", Vr do
     pipe_through :api
-    get "posts", PostController, :index
+    get "/posts", PostController, :index
     resources "/users", UserController, except: [:new, :edit]
     post "/login", SessionController, :create
   end
