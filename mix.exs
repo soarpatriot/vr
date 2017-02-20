@@ -18,7 +18,10 @@ defmodule Vr.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Vr, []},
-     applications: [:ex_machina, :phoenix, :phoenix_pubsub, :cowboy, :logger, :gettext,:comeonin,
+     applications: [:ex_machina, :phoenix, :phoenix_pubsub, 
+                    :cowboy, :logger, :gettext,:comeonin,
+                    :joken, :mellon, :scrivener_headers, :cors_plug,
+                    :keccakf1600, :libdecaf, :libsodium, 
                     :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
 
