@@ -41,8 +41,8 @@ defmodule Vr.Mixfile do
      {:ex_machina, "~> 1.0"},
      {:joken, "~> 1.1"},
      {:libsodium, "~> 0.0.3"},
-     {:keccakf1600, "~> 0.0.1"},
-     {:libdecaf, "~> 0.0.1"},
+     {:keccakf1600, "~> 2.0.0"},
+     {:libdecaf, "~> 0.0.4"},
      {:scrivener_headers, "~> 3.0"},
      {:scrivener_ecto, "~> 1.1.3"},
      {:mellon, "~> 0.1.1"}]

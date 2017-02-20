@@ -12,7 +12,7 @@
   "gettext": {:hex, :gettext, "0.13.1", "5e0daf4e7636d771c4c71ad5f3f53ba09a9ae5c250e1ab9c42ba9edccc476263", [:mix], []},
   "joken": {:hex, :joken, "1.4.1", "16b87dcbad59dfb1e75231b9d6e504d852ce11f849efb7150a41dcad29dba8e1", [:mix], [{:jose, "~> 1.8", [hex: :jose, optional: false]}, {:plug, "~> 1.0", [hex: :plug, optional: true]}, {:poison, "~> 1.5 or ~> 2.0 or ~> 3.0", [hex: :poison, optional: true]}]},
   "jose": {:hex, :jose, "1.8.1", "840ebf379dbdc36a2856d579d911faefe0810270efa97113423af9f76ca7ca0c", [:mix, :rebar3], [{:base64url, "~> 0.0.1", [hex: :base64url, optional: false]}]},
-  "keccakf1600": {:hex, :keccakf1600, "0.0.1", "c9f1f4abfc54c41c5abff5116c705bdfee63b21831008f361f00b70a10bf4c38", [:rebar3], []},
+  "keccakf1600": {:hex, :keccakf1600, "2.0.0", "69d02d844a101bf3c75484c9e334fd04b0f57280727e881cac3bd8240432f43a", [:rebar3], []},
   "libdecaf": {:hex, :libdecaf, "0.0.4", "c1caa4c4aaea356f89372debd0a672251111c2b2236e1b1e8a0f5bc271b60af4", [:rebar3], []},
   "libsodium": {:hex, :libsodium, "0.0.10", "24584e6f5a60aed53542054c15fb31719bbf2d811d9a84f626734faf64d41304", [:rebar3], []},
   "mellon": {:hex, :mellon, "0.1.1", "586150c44bb4990f513c0762b80d60e2cda8d13f300adff97a1bc5dbec83939a", [:mix], [{:plug, "> 0.8.0", [hex: :plug, optional: false]}, {:poison, ">= 1.3.1", [hex: :poison, optional: false]}]},
