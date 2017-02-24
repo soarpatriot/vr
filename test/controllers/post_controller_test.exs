@@ -22,13 +22,23 @@ defmodule Vr.PostControllerTest do
     assert json_response(conn, 200)["data"] == []
   end
 
-  test "shows chosen resource", %{conn: conn} do
-    post = Repo.insert! %Post{}
+  test "shows chosen resource", %{conn: conn, user: user} do
+    #attr = put_in @valid_attrs[:user_id], user.id
+    #attr_with_file = put_in(attr[:file], @file_attrs)
+    file = insert(:file, @file_attrs)
+    post = insert(:post, user_id: user.id, file: file)
+    # post = Repo.insert! %Post{}
     conn = get conn, post_path(conn, :show, post)
     assert json_response(conn, 200)["data"] == %{"id" => post.id,
       "user_id" => post.user_id,
       "title" => post.title,
-      "description" => post.description}
+      "description" => post.description,
+      "email" => user.email, 
+      "full"=> file.full,
+      "user_name" => user.name,
+      "mimetype" => file.mimetype
+
+      }
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

@@ -48,8 +48,12 @@ defmodule Vr.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Post |> preload(:file) |> Repo.get!(id)
-    render(conn, "show.json", post: post)
+    post = Post 
+            |> preload(:file) 
+            |> preload(:user)
+            |> Repo.get!(id)
+    # render(conn, "show.json", post: post)
+    render(conn, "show-extra.json", post: post)
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do
