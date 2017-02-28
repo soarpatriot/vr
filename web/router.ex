@@ -18,6 +18,7 @@ defmodule Vr.Router do
   scope "/", Vr do
     pipe_through :api
     pipe_through :authenticated
+    get "/posts/my", PostController, :my
     resources "/posts", PostController, except: [:new, :edit, :index]
     resources "/files", FileController, except: [:new, :edit]
     get "/validate", SessionController, :validate

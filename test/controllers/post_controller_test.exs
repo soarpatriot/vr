@@ -81,4 +81,34 @@ defmodule Vr.PostControllerTest do
     assert response(conn, 204)
     refute Repo.get(Post, post.id)
   end
+
+  test "my posts with entries", %{conn: conn, user: user} do 
+    file = insert(:file, @file_attrs)
+    file1 = insert(:file, @file_attrs)
+    post = insert(:post, user_id: user.id, file: file)
+    post1 = insert(:post, user_id: user.id, file: file1)
+ 
+    conn = get conn, post_path(conn, :my)
+    assert response(conn, 200)
+    assert length(json_response(conn, 200)["data"]) == 2
+    assert hd(json_response(conn, 200)["data"]) == %{"id" => post.id,
+      "user_id" => post.user_id,
+      "title" => post.title,
+      "description" => post.description,
+      "email" => user.email, 
+      "full"=> file.full,
+      "user_name" => user.name,
+      "mimetype" => file.mimetype
+
+      }
+
+  end
+  test "my posts without data", %{conn: conn, user: user} do 
+ 
+    conn = get conn, post_path(conn, :my)
+    assert response(conn, 200)
+    assert length(json_response(conn, 200)["data"]) == 0
+
+  end
+
 end

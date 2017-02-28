@@ -92,4 +92,17 @@ defmodule Vr.PostController do
 
     send_resp(conn, :no_content, "")
   end
+
+  def my(conn, params) do 
+    user_id = conn.assigns.credentials["user_id"]
+    page = Post |> where([p], p.user_id == ^user_id) 
+             # Repo.get_by(Post, user_id: user_id)
+            |> Repo.paginate(params)
+    posts = page.entries
+            |> Repo.preload([:file, :user])
+    conn 
+      |> Scrivener.Headers.paginate(page)
+      |> render("index.json", posts: posts)
+ 
+  end
 end
