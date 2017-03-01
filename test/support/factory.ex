@@ -25,5 +25,11 @@ defmodule Vr.Factory do
     }
 
   end
+  def highlight_factory do 
+    %Vr.Highlight {
+    }
+
+  end
+
 
 end

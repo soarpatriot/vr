@@ -86,7 +86,7 @@ defmodule Vr.PostControllerTest do
     file = insert(:file, @file_attrs)
     file1 = insert(:file, @file_attrs)
     post = insert(:post, user_id: user.id, file: file)
-    post1 = insert(:post, user_id: user.id, file: file1)
+    insert(:post, user_id: user.id, file: file1)
  
     conn = get conn, post_path(conn, :my)
     assert response(conn, 200)
@@ -103,7 +103,7 @@ defmodule Vr.PostControllerTest do
       }
 
   end
-  test "my posts without data", %{conn: conn, user: user} do 
+  test "my posts without data", %{conn: conn} do 
  
     conn = get conn, post_path(conn, :my)
     assert response(conn, 200)
