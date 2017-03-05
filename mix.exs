@@ -18,7 +18,7 @@ defmodule Vr.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Vr, []},
-     applications: [:ex_machina, :phoenix, :phoenix_pubsub, 
+     applications: [:ex_machina, :phoenix, :phoenix_pubsub,:phoenix_html, 
                     :cowboy, :logger, :gettext,:comeonin,
                     :joken, :mellon, :scrivener_headers, :cors_plug,
                     :keccakf1600, :libdecaf, :libsodium, 
@@ -34,6 +34,7 @@ defmodule Vr.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [{:phoenix, "~> 1.2.0"},
+     {:phoenix_html, "~> 2.6"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.0"},
      {:postgrex, ">= 0.0.0"},
