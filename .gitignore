@@ -1,5 +1,6 @@
 /cover
 *.ez
+/node_modules
 /_build
 /db
 /deps

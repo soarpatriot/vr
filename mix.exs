@@ -49,6 +49,7 @@ defmodule Vr.Mixfile do
      {:libdecaf, "~> 0.0.4"},
      {:scrivener_headers, "~> 3.0"},
      {:scrivener_ecto, "~> 1.1.3"},
+     {:ex_admin, github: "smpallen99/ex_admin"},
      {:mellon, "~> 0.1.1"}]
   end
 

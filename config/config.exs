@@ -17,6 +17,15 @@ config :vr, Vr.Endpoint,
   pubsub: [name: Vr.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :ex_admin,
+  repo: Vr.Repo,
+  module: Vr,
+  modules: [
+    Vr.ExAdmin.Dashboard,
+    Vr.ExAdmin.Post,
+    Vr.ExAdmin.User,
+    Vr.ExAdmin.Highlight
+  ]
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -25,3 +34,6 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+config :xain, :after_callback, {Phoenix.HTML, :raw}
+
