@@ -22,6 +22,7 @@ defmodule Vr.Mixfile do
                     :cowboy, :logger, :gettext,:comeonin,
                     :joken, :mellon, :scrivener_headers, :cors_plug,
                     :keccakf1600, :libdecaf, :libsodium, 
+                    :ex_admin, :exactor, :hound,
                     :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
 
