@@ -1,6 +1,6 @@
 defmodule Vr.Router do
   use Vr.Web, :router
-  use Coherence.Router  
+  use Coherence.Router
   use ExAdmin.Router
 
   pipeline :browser do
@@ -56,16 +56,6 @@ defmodule Vr.Router do
     resources "/posts", PostController, except: [:new, :edit, :index]
     resources "/files", FileController, except: [:new, :edit]
     get "/validate", SessionController, :validate
-  end
-
-  scope "/"  do
-    pipe_through :browser
-  end
-
- 
-  scope "/", Vr do
-    pipe_through :protected
-    coherence_routes :protected
   end
 
   scope "/admin", ExAdmin do
