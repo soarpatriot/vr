@@ -23,6 +23,7 @@ defmodule Vr.Mixfile do
                     :joken, :mellon, :scrivener_headers, :cors_plug,
                     :keccakf1600, :libdecaf, :libsodium, 
                     :ex_admin, :exactor, :hound,
+                    :coherence,
                     :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
 
@@ -41,7 +42,7 @@ defmodule Vr.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 3.0"},
+     {:comeonin, "~> 2.4"},
      {:exrm, "~> 1.0.8"},
      {:cors_plug, "~> 1.1"},
      {:ex_machina, "~> 1.0"},
@@ -52,6 +53,7 @@ defmodule Vr.Mixfile do
      {:scrivener_headers, "~> 3.0"},
      {:scrivener_ecto, "~> 1.1.3"},
      {:ex_admin, github: "smpallen99/ex_admin"},
+     {:coherence, "~> 0.3"},
      {:mellon, "~> 0.1.1"}]
   end
 

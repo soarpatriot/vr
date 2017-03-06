@@ -1,13 +1,36 @@
 defmodule Vr.Router do
   use Vr.Web, :router
+  use Coherence.Router  
   use ExAdmin.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    # plug :protect_from_forgery
+    plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Coherence.Authentication.Session  # Add this
+  end
+
+  pipeline :protected do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug Coherence.Authentication.Session, protected: true
+  end
+
+  # Add this block
+  scope "/" do
+    pipe_through :browser
+    coherence_routes()
+  end
+
+  # Add this block
+  scope "/" do
+    pipe_through :protected
+    coherence_routes :protected
   end
 
   pipeline :api do
@@ -34,9 +57,22 @@ defmodule Vr.Router do
     resources "/files", FileController, except: [:new, :edit]
     get "/validate", SessionController, :validate
   end
-  
-  scope "/admin", ExAdmin do
+
+  scope "/"  do
     pipe_through :browser
+  end
+
+ 
+  scope "/", Vr do
+    pipe_through :protected
+    coherence_routes :protected
+  end
+
+  scope "/admin", ExAdmin do
+    pipe_through :protected
     admin_routes()
   end
+
+
+
 end

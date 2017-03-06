@@ -13,7 +13,7 @@ config :vr,
 config :vr, Vr.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "24y7TB8rOGV5jjuxqeSqZnafUsOtQZWNPNbn1poNJums7U0w/CoNawx9s5nxDJxF",
-  render_errors: [view: Vr.ErrorView, accepts: ~w(json)],
+  render_errors: [view: Vr.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Vr.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
@@ -37,3 +37,18 @@ import_config "#{Mix.env}.exs"
 
 config :xain, :after_callback, {Phoenix.HTML, :raw}
 
+
+# %% Coherence Configuration %%   Don't remove this line
+config :coherence,
+  user_schema: Vr.Admin,
+  repo: Vr.Repo,
+  module: Vr,
+  logged_out_url: "/",
+  email_from_name: "Your Name",
+  email_from_email: "yourname@example.com",
+  opts: [:authenticatable, :recoverable, :lockable, :trackable, :unlockable_with_token, :registerable]
+
+config :coherence, Vr.Coherence.Mailer,
+  adapter: Swoosh.Adapters.Sendgrid,
+  api_key: "your api key here"
+# %% End Coherence Configuration %%
