@@ -40,24 +40,25 @@ defmodule Vr.Router do
   pipeline :authenticated do  
     plug Mellon, validator: {Vr.Validation, :validate, []}, header: "api-token"
   end
+  scope "/", Vr do
+    pipe_through :api
+    pipe_through :authenticated
+    get "/posts/my", PostController, :my
+    resources "/posts", PostController, except: [:new, :edit, :index, :show]
+    resources "/files", FileController, except: [:new, :edit]
+    get "/validate", SessionController, :validate
+  end
+
 
   scope "/", Vr do
     pipe_through :api
     get "/posts", PostController, :index
+    get "/posts/:id", PostController, :show 
     get "/highlights/lastest", HighlightController, :lastest 
     resources "/highlights", HighlightController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
     post "/login", SessionController, :create
   end
-  scope "/", Vr do
-    pipe_through :api
-    pipe_through :authenticated
-    get "/posts/my", PostController, :my
-    resources "/posts", PostController, except: [:new, :edit, :index]
-    resources "/files", FileController, except: [:new, :edit]
-    get "/validate", SessionController, :validate
-  end
-
   scope "/admin", ExAdmin do
     pipe_through :protected
     admin_routes()
