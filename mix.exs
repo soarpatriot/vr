@@ -24,6 +24,7 @@ defmodule Vr.Mixfile do
                     :keccakf1600, :libdecaf, :libsodium, 
                     :ex_admin, :exactor, :hound,
                     :coherence,
+                    :bamboo,
                     :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
 
@@ -50,6 +51,8 @@ defmodule Vr.Mixfile do
      {:libsodium, "~> 0.0.3"},
      {:keccakf1600, "~> 2.0.0"},
      {:libdecaf, "~> 0.0.4"},
+     {:bamboo, "~> 0.8"},
+     {:bamboo_smtp, "~> 1.3.0"},
      {:scrivener_headers, "~> 3.0"},
      {:scrivener_ecto, "~> 1.1.3"},
      {:ex_admin, github: "smpallen99/ex_admin"},
