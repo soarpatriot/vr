@@ -26,7 +26,7 @@ defmodule Vr.PostControllerTest do
     #attr = put_in @valid_attrs[:user_id], user.id
     #attr_with_file = put_in(attr[:file], @file_attrs)
     file = insert(:file, @file_attrs)
-    post = insert(:post, user_id: user.id, file: file)
+    post = insert(:post, user_id: user.id, files: [file])
     # post = Repo.insert! %Post{}
     conn = get conn, post_path(conn, :show, post)
     assert json_response(conn, 200)["data"] == %{"id" => post.id,
@@ -34,12 +34,25 @@ defmodule Vr.PostControllerTest do
       "title" => post.title,
       "description" => post.description,
       "email" => user.email, 
-      "full"=> file.full,
       "user_name" => user.name,
-      "mimetype" => file.mimetype
-
+      "files" => [%{
+        "id"=> file.id,
+        "full"=> file.full,
+        "mimetype" => file.mimetype
+        }]
       }
   end
+  test "shows chosen resource with more files", %{conn: conn, user: user} do
+    #attr = put_in @valid_attrs[:user_id], user.id
+    #attr_with_file = put_in(attr[:file], @file_attrs)
+    file = insert(:file, @file_attrs)
+    file1 = insert(:file, @file_attrs)
+    post = insert(:post, user_id: user.id, files: [file,file1])
+    # post = Repo.insert! %Post{}
+    conn = get conn, post_path(conn, :show, post)
+    assert length(json_response(conn, 200)["data"]["files"]) == 2
+  end
+
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
@@ -49,7 +62,9 @@ defmodule Vr.PostControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn, user: user} do
     attr = put_in @valid_attrs[:user_id], user.id
-    attr_with_file = put_in(attr[:file], @file_attrs)
+    file  = insert(:file)
+    # attr_with_file = put_in(attr[:file], @file_attrs)
+    attr_with_file = put_in(attr[:file_ids], file.id)
     conn = post conn, post_path(conn, :create), post: attr_with_file
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Post, attr)
@@ -85,23 +100,11 @@ defmodule Vr.PostControllerTest do
   test "my posts with entries", %{conn: conn, user: user} do 
     file = insert(:file, @file_attrs)
     file1 = insert(:file, @file_attrs)
-    post = insert(:post, user_id: user.id, file: file)
-    insert(:post, user_id: user.id, file: file1)
- 
+    insert(:post, user_id: user.id, files: [file])
+    insert(:post, user_id: user.id, files: [file1])
     conn = get conn, post_path(conn, :my)
     assert response(conn, 200)
     assert length(json_response(conn, 200)["data"]) == 2
-    assert hd(json_response(conn, 200)["data"]) == %{"id" => post.id,
-      "user_id" => post.user_id,
-      "title" => post.title,
-      "description" => post.description,
-      "email" => user.email, 
-      "full"=> file.full,
-      "user_name" => user.name,
-      "mimetype" => file.mimetype
-
-      }
-
   end
   test "my posts without data", %{conn: conn} do 
  

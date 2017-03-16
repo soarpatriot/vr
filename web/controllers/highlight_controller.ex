@@ -57,7 +57,7 @@ defmodule Vr.HighlightController do
   def lastest(conn, _params) do 
     highlight = Repo.one(from x in Highlight, order_by: [desc: x.id], limit: 1)
     post = Post 
-            |> preload(:file) 
+            |> preload(:files) 
             |> preload(:user)
             |> Repo.get!(highlight.post_id) 
     # render(conn, "show.json", post: post)

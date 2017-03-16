@@ -17,4 +17,12 @@ defmodule Vr.FileView do
       full: file.full,
       size: file.size}
   end
+  def render("simple-file.json", %{file: file}) do
+    %{
+      id: file.id,
+      mimetype: file.mimetype,
+      full: file.full
+    }
+  end
+
 end

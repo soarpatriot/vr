@@ -12,22 +12,20 @@ defmodule Vr.PostView do
     %{data: render_one(post, Vr.PostView, "post-with-assoc.json")}
   end
 
-
   def render("post-with-assoc.json", %{post: post}) do
     base =  %{id: post.id,
           user_id: post.user_id,
           title: post.title,
-          description: post.description}
+          description: post.description,
+          files: render_many(post.files, Vr.FileView, "simple-file.json")}
 
     file =
-      case !is_nil(post.file) do 
-        true ->
-          %{
-            full: post.file.full,
-            mimetype: post.file.mimetype
-          }
-        false -> 
+      case post.files do 
+        [] -> 
           %{}
+        _ ->
+          %{}
+          # %{files: render_many(post.files, Vr.PostView, "show-file.json") }
       end
     user = 
       case !is_nil(post.user) do 
@@ -40,7 +38,8 @@ defmodule Vr.PostView do
           %{}
    
       end
-    Map.merge(base, file) |> Map.merge(user)
+      # Map.merge(base, file) |> Map.merge(user)
+      Map.merge(base, user)
   end
 
   def render("post.json", %{post: post}) do
@@ -49,4 +48,13 @@ defmodule Vr.PostView do
           title: post.title,
           description: post.description}
   end
+
+  def render("show-file.json", %{file: file}) do 
+    %{
+       full: file.full,
+       mimetype: file.mimetype
+    }
+  end
+
+
 end

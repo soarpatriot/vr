@@ -5,7 +5,7 @@ defmodule Vr.Post do
     field :description, :string
     timestamps()
     belongs_to :user, Vr.User
-    has_one :file, Vr.File
+    has_many :files, Vr.File
   end
 
   @doc """
@@ -18,6 +18,6 @@ defmodule Vr.Post do
   end
 
   def with_user_file(query) do 
-    from q in query, preload: ([ :user, :file ])
+    from q in query, preload: ([ :user, :files ])
   end 
 end

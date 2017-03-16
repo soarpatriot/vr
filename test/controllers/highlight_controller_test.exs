@@ -26,19 +26,21 @@ defmodule Vr.HighlightControllerTest do
   test "shows lastest resource", %{conn: conn} do
     user = insert(:user)
     file = insert(:file, @file_attrs)
-    post = insert(:post, user_id: user.id, file: file)
+    post = insert(:post, user_id: user.id, files: [file])
+    # file = insert(:file, post: post)
     insert(:highlight, post: post)
-    # post = Repo.insert! %Post{}
     conn = get conn, highlight_path(conn, :lastest)
-    # IO.inspect json_response(conn, 200)["data"] 
     assert json_response(conn, 200)["data"] == %{"id" => post.id,
       "user_id" => post.user_id,
       "title" => post.title,
       "description" => post.description,
       "email" => user.email, 
-      "full"=> file.full,
-      "user_name" => user.name,
-      "mimetype" => file.mimetype
+      "files" => [%{
+        "id" => file.id,
+        "full"=> file.full,
+        "mimetype" => file.mimetype
+      }],
+      "user_name" => user.name
 
       }
   end

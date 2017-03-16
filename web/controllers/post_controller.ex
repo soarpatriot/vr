@@ -17,27 +17,32 @@ defmodule Vr.PostController do
   def create(conn, %{"post" => post_params}) do
     user_id = conn.assigns.credentials["user_id"]
     # params = Map.merge(post_params, %{user_id: user_id})
-    file_params = post_params["file"]
+    file_params = post_params["file_ids"]
 	  changeset = Post.changeset(%Post{user_id: user_id}, post_params)
     case is_nil(file_params) do 
       false ->
-				file_changeset = File.changeset(%File{}, file_params)
-        changes = changeset
-											|> Ecto.Changeset.put_assoc(:file, file_changeset)
-				case  Repo.insert(changes) do
-					{:ok, post} ->
-            # p = Post |> preload(:file) |> Repo.get(post.id)
-            # IO.inspect p
-						conn
-						|> put_status(:created)
-						|> put_resp_header("location", post_path(conn, :show, post))
-						|> render("show.json", post: post)
-					{:error, changeset} ->
-						conn
-						|> put_status(:unprocessable_entity)
-						|> render(Vr.ChangesetView, "error.json", changeset: changeset)
+        files = File |> where([f], f.id in [^file_params]) |> Repo.all
+        # file_changeset = File.changeset(%File{}, file_params)
+        # IO.inspect files
+          case Repo.insert(changeset) do
+					  {:ok, post} ->
 
-				end
+              post 
+                |> Repo.preload(:files)
+                |> Ecto.Changeset.change()
+                |> Ecto.Changeset.put_assoc(:files, files)
+                |> Repo.update!
+                |> Repo.preload([:files, :user])
+              conn
+                |> put_status(:created)
+                |> put_resp_header("location", post_path(conn, :show, post))
+                |> render("show.json", post: post)
+            {:error, changeset} ->
+               conn
+                |> put_status(:unprocessable_entity)
+                |> render(Vr.ChangesetView, "error.json", changeset: changeset)
+          end  
+
       true ->
         error_changes = Ecto.Changeset.add_error(changeset, :file, "empty", additional: "file should not be empty")
  				conn
@@ -47,9 +52,10 @@ defmodule Vr.PostController do
    # end 
   end
 
+
   def show(conn, %{"id" => id}) do
     post = Post 
-            |> preload(:file) 
+            |> preload(:files) 
             |> preload(:user)
             |> Repo.get!(id)
     # render(conn, "show.json", post: post)
@@ -99,7 +105,7 @@ defmodule Vr.PostController do
              # Repo.get_by(Post, user_id: user_id)
             |> Repo.paginate(params)
     posts = page.entries
-            |> Repo.preload([:file, :user])
+            |> Repo.preload([:files, :user])
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)
