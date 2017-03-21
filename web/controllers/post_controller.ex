@@ -21,7 +21,7 @@ defmodule Vr.PostController do
 	  changeset = Post.changeset(%Post{user_id: user_id}, post_params)
     case is_nil(file_params) do 
       false ->
-        files = File |> where([f], f.id in [^file_params]) |> Repo.all
+        files = File |> where([f], f.id in ^file_params) |> Repo.all
         # file_changeset = File.changeset(%File{}, file_params)
         # IO.inspect files
           case Repo.insert(changeset) do

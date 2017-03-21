@@ -64,7 +64,7 @@ defmodule Vr.PostControllerTest do
     attr = put_in @valid_attrs[:user_id], user.id
     file  = insert(:file)
     # attr_with_file = put_in(attr[:file], @file_attrs)
-    attr_with_file = put_in(attr[:file_ids], file.id)
+    attr_with_file = put_in(attr[:file_ids], [file.id])
     conn = post conn, post_path(conn, :create), post: attr_with_file
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Post, attr)
