@@ -25,6 +25,7 @@ defmodule Vr.Mixfile do
                     :ex_admin, :exactor, :hound,
                     :coherence,
                     :bamboo,
+                    :bamboo_smtp,
                     :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
 
