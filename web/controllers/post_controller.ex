@@ -7,7 +7,7 @@ defmodule Vr.PostController do
     page = Post
             |> Repo.paginate(params)
     posts = page.entries
-            |> Repo.preload([:files, :user])
+            |> Repo.preload([:assets, :user])
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)
