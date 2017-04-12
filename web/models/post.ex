@@ -5,7 +5,7 @@ defmodule Vr.Post do
     field :description, :string
     timestamps()
     belongs_to :user, Vr.User
-    has_many :assets, Vr.Asset
+    has_many :assets, Vr.Asset, on_delete: :delete_all
   end
 
   @doc """
