@@ -28,7 +28,7 @@ set :linked_files, fetch(:linked_files, []).push('config/prod.secret.exs','confi
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, [])
-  .push('deps', 'node_modules', 'rel', '_build', 'priv/static', 'log')
+  .push('deps', 'node_modules', 'rel', '_build','log')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -45,8 +45,7 @@ namespace :deploy do
     on roles(:all), in: :sequence do
       # within current_path  do
       within current_path  do
-        execute :echo, "start && MIX_ENV=#{fetch(:mix_env)} mix deps.get  --only prod && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate\
-        && brunch build --production\
+        execute :echo, "start && MIX_ENV=#{fetch(:mix_env)} mix deps.get  --only prod && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate && brunch build --production\
         && MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest && MIX_ENV=#{fetch(:mix_env)} mix compile && MIX_ENV=#{fetch(:mix_env)} mix release"
       end
     end
