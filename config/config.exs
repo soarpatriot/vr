@@ -24,6 +24,7 @@ config :ex_admin,
     Vr.ExAdmin.Dashboard,
     Vr.ExAdmin.Post,
     Vr.ExAdmin.User,
+    Vr.ExAdmin.Asset,
     Vr.ExAdmin.Highlight
   ]
 # Configures Elixir's Logger
