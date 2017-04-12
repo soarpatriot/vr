@@ -1,8 +1,7 @@
 defmodule Vr.PostController do
   use Vr.Web, :controller
-  require IEx
   alias Vr.Post
-  alias Vr.File
+  alias Vr.Asset
 
   def index(conn, params) do
     page = Post
@@ -21,18 +20,18 @@ defmodule Vr.PostController do
 	  changeset = Post.changeset(%Post{user_id: user_id}, post_params)
     case is_nil(file_params) do 
       false ->
-        files = File |> where([f], f.id in ^file_params) |> Repo.all
+        assets = Asset |> where([f], f.id in ^file_params) |> Repo.all
         # file_changeset = File.changeset(%File{}, file_params)
         # IO.inspect files
           case Repo.insert(changeset) do
 					  {:ok, post} ->
 
               post 
-                |> Repo.preload(:files)
+                |> Repo.preload(:assets)
                 |> Ecto.Changeset.change()
-                |> Ecto.Changeset.put_assoc(:files, files)
+                |> Ecto.Changeset.put_assoc(:assets, assets)
                 |> Repo.update!
-                |> Repo.preload([:files, :user])
+                |> Repo.preload([:assets, :user])
               conn
                 |> put_status(:created)
                 |> put_resp_header("location", post_path(conn, :show, post))
@@ -55,7 +54,7 @@ defmodule Vr.PostController do
 
   def show(conn, %{"id" => id}) do
     post = Post 
-            |> preload(:files) 
+            |> preload(:assets) 
             |> preload(:user)
             |> Repo.get!(id)
     # render(conn, "show.json", post: post)
@@ -105,7 +104,7 @@ defmodule Vr.PostController do
              # Repo.get_by(Post, user_id: user_id)
             |> Repo.paginate(params)
     posts = page.entries
-            |> Repo.preload([:files, :user])
+            |> Repo.preload([:assets, :user])
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)

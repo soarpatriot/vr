@@ -10,8 +10,8 @@ defmodule Vr.Factory do
     }
 
   end
-  def file_factory do 
-    %Vr.File {
+  def asset_factory do 
+    %Vr.Asset {
       filename: "aa",
       full: "cc"
     }

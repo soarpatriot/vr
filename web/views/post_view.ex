@@ -17,10 +17,10 @@ defmodule Vr.PostView do
           user_id: post.user_id,
           title: post.title,
           description: post.description,
-          files: render_many(post.files, Vr.FileView, "simple-file.json")}
+          assets: render_many(post.assets, Vr.AssetView, "simple-file.json")}
 
-    file =
-      case post.files do 
+    asset =
+      case post.assets do 
         [] -> 
           %{}
         _ ->
@@ -49,10 +49,10 @@ defmodule Vr.PostView do
           description: post.description}
   end
 
-  def render("show-file.json", %{file: file}) do 
+  def render("show-file.json", %{asset: asset}) do 
     %{
-       full: file.full,
-       mimetype: file.mimetype
+       full: asset.full,
+       mimetype: asset.mimetype
     }
   end
 

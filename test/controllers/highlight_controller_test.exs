@@ -25,8 +25,8 @@ defmodule Vr.HighlightControllerTest do
   end
   test "shows lastest resource", %{conn: conn} do
     user = insert(:user)
-    file = insert(:file, @file_attrs)
-    post = insert(:post, user_id: user.id, files: [file])
+    file = insert(:asset, @file_attrs)
+    post = insert(:post, user_id: user.id, assets: [file])
     # file = insert(:file, post: post)
     insert(:highlight, post: post)
     conn = get conn, highlight_path(conn, :lastest)
@@ -35,7 +35,7 @@ defmodule Vr.HighlightControllerTest do
       "title" => post.title,
       "description" => post.description,
       "email" => user.email, 
-      "files" => [%{
+      "assets" => [%{
         "id" => file.id,
         "full"=> file.full,
         "mimetype" => file.mimetype
