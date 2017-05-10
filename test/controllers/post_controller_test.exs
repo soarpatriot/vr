@@ -6,7 +6,8 @@ defmodule Vr.PostControllerTest do
   alias Vr.Post
   @invalid_attrs %{}
   @valid_attrs %{description: "some content", title: "some content", user_id: 11} 
-  @file_attrs  %{ filename: "aa", relative: "bb", full: "cc", size: 30, mimetype: "jpeg" }  
+  @file_attrs  %{ filename: "aa", parent: "asff",
+    relative: "bb", full: "cc", size: 30, mimetype: "jpeg" }  
   setup do
     user = insert(:user)
 
@@ -26,7 +27,7 @@ defmodule Vr.PostControllerTest do
     #attr = put_in @valid_attrs[:user_id], user.id
     #attr_with_file = put_in(attr[:file], @file_attrs)
     file = insert(:asset, @file_attrs)
-    post = insert(:post, user_id: user.id, assets: [file])
+    post = insert(:post, user_id: user.id, asset: file)
     # post = Repo.insert! %Post{}
     conn = get conn, post_path(conn, :show, post)
     assert json_response(conn, 200)["data"] == %{"id" => post.id,
@@ -35,22 +36,37 @@ defmodule Vr.PostControllerTest do
       "description" => post.description,
       "email" => user.email, 
       "user_name" => user.name,
-      "assets" => [%{
+      "asset" => %{
         "id"=> file.id,
         "full"=> file.full,
-        "mimetype" => file.mimetype
-        }]
+        "mimetype" => file.mimetype,
+        "parent" => file.parent,
+        "parts" => []
+        }
       }
   end
   test "shows chosen resource with more files", %{conn: conn, user: user} do
     #attr = put_in @valid_attrs[:user_id], user.id
     #attr_with_file = put_in(attr[:file], @file_attrs)
     file = insert(:asset, @file_attrs)
-    file1 = insert(:asset, @file_attrs)
-    post = insert(:post, user_id: user.id, assets: [file,file1])
+    post = insert(:post, user_id: user.id, asset: file)
     # post = Repo.insert! %Post{}
     conn = get conn, post_path(conn, :show, post)
-    assert length(json_response(conn, 200)["data"]["assets"]) == 2
+    assert json_response(conn, 200)["data"] == %{"id" => post.id,
+      "user_id" => post.user_id,
+      "title" => post.title,
+      "description" => post.description,
+      "email" => user.email, 
+      "user_name" => user.name,
+      "asset" => %{
+        "id"=> file.id,
+        "full"=> file.full,
+        "mimetype" => file.mimetype,
+        "parent" => file.parent,
+        "parts" => []
+        }
+      }
+
   end
 
 
@@ -64,7 +80,7 @@ defmodule Vr.PostControllerTest do
     attr = put_in @valid_attrs[:user_id], user.id
     file  = insert(:asset)
     # attr_with_file = put_in(attr[:file], @file_attrs)
-    attr_with_file = put_in(attr[:file_ids], [file.id])
+    attr_with_file = put_in(attr[:file_id], file.id)
     conn = post conn, post_path(conn, :create), post: attr_with_file
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Post, attr)
@@ -99,12 +115,11 @@ defmodule Vr.PostControllerTest do
 
   test "my posts with entries", %{conn: conn, user: user} do 
     file = insert(:asset, @file_attrs)
-    file1 = insert(:asset, @file_attrs)
-    insert(:post, user_id: user.id, assets: [file])
-    insert(:post, user_id: user.id, assets: [file1])
+    insert(:post, user_id: user.id, asset: file)
+    # insert(:post, user_id: user.id, assets: [file1])
     conn = get conn, post_path(conn, :my)
     assert response(conn, 200)
-    assert length(json_response(conn, 200)["data"]) == 2
+    assert length(json_response(conn, 200)["data"]) == 1
   end
   test "my posts without data", %{conn: conn} do 
  

@@ -2,6 +2,7 @@ defmodule Vr.AssetController do
   use Vr.Web, :controller
 
   alias Vr.Asset
+  alias Vr.Part
 
   def index(conn, _params) do
     assets = Repo.all(Asset)
@@ -10,8 +11,10 @@ defmodule Vr.AssetController do
 
   def create(conn, %{"asset" => file_params}) do
     changeset = Asset.changeset(%Asset{}, file_params)
-
-    case Repo.insert(changeset) do
+    IO.inspect file_params["parts"]
+    parts = Part.list(file_params["parts"]) 
+    asset_with_parts = Ecto.Changeset.put_assoc(changeset, :parts, parts)
+    case Repo.insert(asset_with_parts) do
       {:ok, asset} ->
         conn
         |> put_status(:created)

@@ -7,10 +7,12 @@ defmodule Vr.Asset do
     field :relative, :string
     field :full, :string
     field :size, :integer
+    field :parent, :string
 
     timestamps()
     
     belongs_to :post, Vr.Post
+    has_many :parts, Vr.Part, on_delete: :delete_all
   end
 
   @doc """
@@ -18,7 +20,7 @@ defmodule Vr.Asset do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:post_id, :filename, :mimetype, :relative, :full, :size])
-    |> validate_required([:filename, :mimetype, :relative, :full, :size])
+    |> cast(params, [:post_id, :filename, :mimetype, :relative, :full, :size, :parent])
+    |> validate_required([:filename, :mimetype, :relative, :full, :size, :parent])
   end
 end

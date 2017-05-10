@@ -17,16 +17,8 @@ defmodule Vr.PostView do
           user_id: post.user_id,
           title: post.title,
           description: post.description,
-          assets: render_many(post.assets, Vr.AssetView, "simple-file.json")}
+          asset: render_one(post.asset, Vr.AssetView, "simple-file.json")}
 
-    asset =
-      case post.assets do 
-        [] -> 
-          %{}
-        _ ->
-          %{}
-          # %{files: render_many(post.files, Vr.PostView, "show-file.json") }
-      end
     user = 
       case !is_nil(post.user) do 
         true ->

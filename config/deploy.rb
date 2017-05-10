@@ -44,8 +44,9 @@ namespace :deploy do
   task :build do
     on roles(:all), in: :sequence do
       # within current_path  do
+      # brunch build --production
       within current_path  do
-        execute :echo, "start && MIX_ENV=#{fetch(:mix_env)} mix deps.get  --only prod && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate && brunch build --production\
+        execute :echo, "start && MIX_ENV=#{fetch(:mix_env)} mix deps.get  --only prod && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate\
         && MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest && MIX_ENV=#{fetch(:mix_env)} mix compile && MIX_ENV=#{fetch(:mix_env)} mix release"
       end
     end

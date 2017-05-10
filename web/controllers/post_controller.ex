@@ -7,7 +7,8 @@ defmodule Vr.PostController do
     page = Post
             |> Repo.paginate(params)
     posts = page.entries
-            |> Repo.preload([:assets, :user])
+            |> Repo.preload([asset: :parts])
+            |> Repo.preload([:user])
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)
@@ -16,22 +17,23 @@ defmodule Vr.PostController do
   def create(conn, %{"post" => post_params}) do
     user_id = conn.assigns.credentials["user_id"]
     # params = Map.merge(post_params, %{user_id: user_id})
-    file_params = post_params["file_ids"]
+    asset_id = post_params["file_id"]
 	  changeset = Post.changeset(%Post{user_id: user_id}, post_params)
-    case is_nil(file_params) do 
+    case is_nil(asset_id) do 
       false ->
-        assets = Asset |> where([f], f.id in ^file_params) |> Repo.all
+        # asset = Asset |> where([f], f.id in ^file_params) |> Repo.all
+        asset = Asset |> Repo.get(asset_id) 
         # file_changeset = File.changeset(%File{}, file_params)
         # IO.inspect files
           case Repo.insert(changeset) do
 					  {:ok, post} ->
 
               post 
-                |> Repo.preload(:assets)
+                |> Repo.preload(:asset)
                 |> Ecto.Changeset.change()
-                |> Ecto.Changeset.put_assoc(:assets, assets)
+                |> Ecto.Changeset.put_assoc(:asset, asset)
                 |> Repo.update!
-                |> Repo.preload([:assets, :user])
+                |> Repo.preload([:asset, :user])
               conn
                 |> put_status(:created)
                 |> put_resp_header("location", post_path(conn, :show, post))
@@ -53,8 +55,8 @@ defmodule Vr.PostController do
 
 
   def show(conn, %{"id" => id}) do
-    post = Post 
-            |> preload(:assets) 
+    post = Post  
+            |> preload([asset: :parts])
             |> preload(:user)
             |> Repo.get!(id)
     # render(conn, "show.json", post: post)
@@ -104,7 +106,8 @@ defmodule Vr.PostController do
              # Repo.get_by(Post, user_id: user_id)
             |> Repo.paginate(params)
     posts = page.entries
-            |> Repo.preload([:assets, :user])
+            |> Repo.preload([asset: :parts])
+            |> Repo.preload([:user])
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)

@@ -6,7 +6,7 @@ defmodule Vr.HighlightControllerTest do
   alias Vr.Highlight
   @valid_attrs %{post_id: 42}
   @invalid_attrs %{}
-  @file_attrs  %{ filename: "aa", relative: "bb", full: "cc", size: 30, mimetype: "jpeg" }  
+  @file_attrs  %{ filename: "aa", relative: "bb", full: "cc", size: 30, mimetype: "jpeg", parent: "as" }  
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -26,7 +26,7 @@ defmodule Vr.HighlightControllerTest do
   test "shows lastest resource", %{conn: conn} do
     user = insert(:user)
     file = insert(:asset, @file_attrs)
-    post = insert(:post, user_id: user.id, assets: [file])
+    post = insert(:post, user_id: user.id, asset: file)
     # file = insert(:file, post: post)
     insert(:highlight, post: post)
     conn = get conn, highlight_path(conn, :lastest)
@@ -35,11 +35,13 @@ defmodule Vr.HighlightControllerTest do
       "title" => post.title,
       "description" => post.description,
       "email" => user.email, 
-      "assets" => [%{
+      "asset" => %{
         "id" => file.id,
         "full"=> file.full,
-        "mimetype" => file.mimetype
-      }],
+        "mimetype" => file.mimetype,
+        "parent" => file.parent,
+        "parts" => []
+      },
       "user_name" => user.name
 
       }

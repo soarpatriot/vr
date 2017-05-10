@@ -21,7 +21,9 @@ defmodule Vr.AssetView do
     %{
       id: asset.id,
       mimetype: asset.mimetype,
-      full: asset.full
+      full: asset.full,
+      parent: asset.parent,
+      parts: render_many(asset.parts, Vr.PartView, "show.json")
     }
   end
 

@@ -6,6 +6,8 @@ defmodule Vr.AssetControllerTest do
   alias Vr.User
   @valid_attrs %{filename: "some content", 
    full: "some content", 
+   parent: "parent",
+   parts: ["a.txt", "b.obj"],
    mimetype: "some content", relative: "some content", size: 42, post_id: 12}
   @invalid_attrs %{}
 
@@ -47,7 +49,12 @@ defmodule Vr.AssetControllerTest do
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, asset_path(conn, :create), asset: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(Asset, @valid_attrs)
+    parts = @valid_attrs[:parts]
+    IO.puts "parts:"
+    IO.inspect parts
+    assert Repo.get_by(Vr.Part, %{name: hd(parts)})
+    search_by = Map.drop(@valid_attrs, [:parts])
+    assert Repo.get_by(Asset, search_by)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -59,7 +66,8 @@ defmodule Vr.AssetControllerTest do
     asset = Repo.insert! %Asset{}
     conn = put conn, asset_path(conn, :update, asset), asset: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(Asset, @valid_attrs)
+    search_by = Map.drop(@valid_attrs, [:parts])
+    assert Repo.get_by(Asset, search_by)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do

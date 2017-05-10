@@ -57,6 +57,7 @@ defmodule Vr.Router do
     get "/highlights/lastest", HighlightController, :lastest 
     resources "/highlights", HighlightController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
+    resources "/parts", PartController, except: [:new, :edit]
     post "/login", SessionController, :create
   end
   scope "/admin", ExAdmin do
