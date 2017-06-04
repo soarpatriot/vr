@@ -38,6 +38,8 @@ defmodule Vr.Endpoint do
 
   plug CORSPlug, [
     origin: "*", 
+    expose: ["page-number", "per-page", "total", "total-pages", "link"],
+    # access_control_expose_headers: "page-number",
     headers: ["api-token" | CORSPlug.defaults[:headers]]
   ]
   plug Vr.Router
