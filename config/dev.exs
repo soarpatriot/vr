@@ -15,7 +15,7 @@ config :vr, Vr.Endpoint,
     cd: Path.expand("../", __DIR__)]]
   # watchers: []
 
-
+config :vr, Vr.Gettext, default_locale: "zh"
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

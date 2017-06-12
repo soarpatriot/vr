@@ -26,7 +26,8 @@ config :ex_admin,
     Vr.ExAdmin.User,
     Vr.ExAdmin.Asset,
     Vr.ExAdmin.Part,
-    Vr.ExAdmin.Highlight
+    Vr.ExAdmin.Highlight,
+    Vr.ExAdmin.Cover
   ]
 # Configures Elixir's Logger
 config :logger, :console,

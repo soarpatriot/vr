@@ -46,6 +46,7 @@ defmodule Vr.Router do
     get "/posts/my", PostController, :my
     resources "/posts", PostController, except: [:new, :edit, :index, :show]
     resources "/assets", AssetController, except: [:new, :edit]
+    resources "/covers", CoverController, except: [:new, :edit]
     get "/validate", SessionController, :validate
   end
 

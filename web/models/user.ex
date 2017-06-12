@@ -19,9 +19,10 @@ defmodule Vr.User do
     struct
     |> cast(params, [:name, :email, :password])
     |> validate_required([:name, :email, :password])
-    |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 6)
+    |> unique_constraint(:email)
+    |> unique_constraint(:name)
   end
 
   def registration_changeset(model, params \\ :empty) do
