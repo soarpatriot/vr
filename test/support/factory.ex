@@ -19,7 +19,7 @@ defmodule Vr.Factory do
   end
   def post_factory do 
     %Vr.Post {
-      user_id: "3333",
+      user_id: 3333,
       title: "df",
       description: "ff",
     }

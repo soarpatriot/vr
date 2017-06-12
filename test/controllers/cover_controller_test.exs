@@ -3,6 +3,7 @@ defmodule Vr.CoverControllerTest do
   import Vr.Factory
 
   alias Vr.User
+  alias Vr.Post
   alias Vr.Cover
   @valid_attrs %{filename: "some content", full: "some content", mimetype: "some content", parent: "some content", post_id: 42, size: 42}
   @invalid_attrs %{}
@@ -45,6 +46,20 @@ defmodule Vr.CoverControllerTest do
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Cover, @valid_attrs)
   end
+
+  test "update resource when post exist", %{conn: conn} do
+    post = insert(:post)
+    params = Map.merge(@valid_attrs,  %{post_id: post.id})
+    IO.inspect params
+    conn = post conn, cover_path(conn, :create), cover: params
+    assert json_response(conn, 201)["data"]["id"]
+    assert Repo.get_by(Cover, params)
+    cover = Repo.get_by(Cover, params)
+    assert cover.post_id == post.id
+    # assert Repo.all(Cover)
+    assert Repo.aggregate(Cover, :count, :id) == 1
+  end
+
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, cover_path(conn, :create), cover: @invalid_attrs
