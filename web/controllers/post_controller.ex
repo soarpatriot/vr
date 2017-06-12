@@ -9,6 +9,7 @@ defmodule Vr.PostController do
     posts = page.entries
             |> Repo.preload([asset: :parts])
             |> Repo.preload([:user])
+            |> Repo.preload([:cover])
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)
@@ -58,6 +59,7 @@ defmodule Vr.PostController do
     post = Post  
             |> preload([asset: :parts])
             |> preload(:user)
+            |> preload([:cover])
             |> Repo.get!(id)
     # render(conn, "show.json", post: post)
     render(conn, "show-extra.json", post: post)
@@ -108,6 +110,7 @@ defmodule Vr.PostController do
     posts = page.entries
             |> Repo.preload([asset: :parts])
             |> Repo.preload([:user])
+            |> Repo.preload([:cover])
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)

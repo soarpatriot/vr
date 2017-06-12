@@ -2,13 +2,14 @@ defmodule Vr.Cover do
   use Vr.Web, :model
 
   schema "covers" do
-    field :post_id, :integer
+    # field :post_id, :integer
     field :filename, :string
     field :mimetype, :string
     field :full, :string
     field :size, :integer
     field :parent, :string
 
+    belongs_to :post, Vr.Post
     timestamps()
   end
 

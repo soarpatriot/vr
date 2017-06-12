@@ -17,8 +17,8 @@ defmodule Vr.PostView do
           user_id: post.user_id,
           title: post.title,
           description: post.description,
+          cover: render_one(post.cover, Vr.CoverView, "show.json"),
           asset: render_one(post.asset, Vr.AssetView, "simple-file.json")}
-
     user = 
       case !is_nil(post.user) do 
         true ->

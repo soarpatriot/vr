@@ -42,6 +42,7 @@ defmodule Vr.HighlightControllerTest do
         "parent" => file.parent,
         "parts" => []
       },
+      "cover" => nil,
       "user_name" => user.name
 
       }

@@ -36,6 +36,7 @@ defmodule Vr.PostControllerTest do
       "description" => post.description,
       "email" => user.email, 
       "user_name" => user.name,
+      "cover" => nil,
       "asset" => %{
         "id"=> file.id,
         "full"=> file.full,
@@ -58,6 +59,7 @@ defmodule Vr.PostControllerTest do
       "description" => post.description,
       "email" => user.email, 
       "user_name" => user.name,
+      "cover" => nil,
       "asset" => %{
         "id"=> file.id,
         "full"=> file.full,

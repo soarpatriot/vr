@@ -5,6 +5,7 @@ defmodule Vr.Post do
     field :description, :string
     timestamps()
     belongs_to :user, Vr.User
+    has_one :cover, Vr.Cover
     has_one :asset, Vr.Asset, on_delete: :delete_all
   end
 
@@ -18,6 +19,6 @@ defmodule Vr.Post do
   end
 
   def with_user_file(query) do 
-    from q in query, preload: ([ :user, :asset ])
+    from q in query, preload: ([ :user, :asset, :cover ])
   end 
 end
