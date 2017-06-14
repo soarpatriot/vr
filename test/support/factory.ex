@@ -17,6 +17,12 @@ defmodule Vr.Factory do
     }
 
   end
+  def cover_factory do 
+    %Vr.Cover {
+      full: "cc"
+    }
+  end
+ 
   def post_factory do 
     %Vr.Post {
       user_id: 3333,

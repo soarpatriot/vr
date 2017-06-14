@@ -48,6 +48,7 @@ defmodule Vr.CoverControllerTest do
   end
 
   test "update resource when post exist", %{conn: conn} do
+    insert(:cover)
     post = insert(:post)
     params = Map.merge(@valid_attrs,  %{post_id: post.id})
     IO.inspect params
@@ -57,7 +58,7 @@ defmodule Vr.CoverControllerTest do
     cover = Repo.get_by(Cover, params)
     assert cover.post_id == post.id
     # assert Repo.all(Cover)
-    assert Repo.aggregate(Cover, :count, :id) == 1
+    assert Repo.aggregate(Cover, :count, :id) == 2
   end
 
 

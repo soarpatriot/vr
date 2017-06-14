@@ -10,11 +10,13 @@ defmodule Vr.CoverController do
 
   def create(conn, %{"cover" => cover_params}) do
     # changeset = Cover.changeset(%Cover{}, cover_params)
+    IO.inspect cover_params["post_id"]
     result =  
       case is_nil(cover_params["post_id"]) do 
         false ->
-          # (Ecto.Query.from c in Cover, where: c.post_id == ^cover_params["post_id"])
-          case  Repo.one(Cover, post_id: cover_params["post_id"]) do 
+          query = (Ecto.Query.from c in Cover, where: c.post_id == ^cover_params["post_id"])
+          
+          case  Repo.one(query) do 
             nil ->
               %Cover{}
             cover -> 
