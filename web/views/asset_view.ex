@@ -14,6 +14,7 @@ defmodule Vr.AssetView do
       filename: asset.filename,
       mimetype: asset.mimetype,
       relative: asset.relative,
+      murl: asset.murl,
       full: asset.full,
       size: asset.size}
   end
@@ -22,6 +23,7 @@ defmodule Vr.AssetView do
       id: asset.id,
       mimetype: asset.mimetype,
       full: asset.full,
+      murl: asset.murl,
       parent: asset.parent,
       parts: render_many(asset.parts, Vr.PartView, "show.json")
     }

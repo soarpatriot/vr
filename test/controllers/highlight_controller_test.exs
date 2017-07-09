@@ -6,7 +6,7 @@ defmodule Vr.HighlightControllerTest do
   alias Vr.Highlight
   @valid_attrs %{post_id: 42}
   @invalid_attrs %{}
-  @file_attrs  %{ filename: "aa", relative: "bb", full: "cc", size: 30, mimetype: "jpeg", parent: "as" }  
+  @file_attrs  %{ filename: "aa", relative: "bb", full: "cc", murl: "http://yun.com", size: 30, mimetype: "jpeg", parent: "as" }  
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -38,6 +38,7 @@ defmodule Vr.HighlightControllerTest do
       "asset" => %{
         "id" => file.id,
         "full"=> file.full,
+        "murl" => file.murl,
         "mimetype" => file.mimetype,
         "parent" => file.parent,
         "parts" => []

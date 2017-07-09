@@ -7,7 +7,7 @@ defmodule Vr.PostControllerTest do
   @invalid_attrs %{}
   @valid_attrs %{description: "some content", title: "some content", user_id: 11} 
   @file_attrs  %{ filename: "aa", parent: "asff",
-    relative: "bb", full: "cc", size: 30, mimetype: "jpeg" }  
+    murl: "http://yun.com", relative: "bb", full: "cc", size: 30, mimetype: "jpeg" }  
   setup do
     user = insert(:user)
 
@@ -40,6 +40,7 @@ defmodule Vr.PostControllerTest do
       "asset" => %{
         "id"=> file.id,
         "full"=> file.full,
+        "murl" => file.murl,
         "mimetype" => file.mimetype,
         "parent" => file.parent,
         "parts" => []
@@ -63,6 +64,7 @@ defmodule Vr.PostControllerTest do
       "asset" => %{
         "id"=> file.id,
         "full"=> file.full,
+        "murl" => file.murl,
         "mimetype" => file.mimetype,
         "parent" => file.parent,
         "parts" => []

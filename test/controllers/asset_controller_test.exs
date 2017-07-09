@@ -6,6 +6,7 @@ defmodule Vr.AssetControllerTest do
   alias Vr.User
   @valid_attrs %{filename: "some content", 
    full: "some content", 
+   murl: "http://www.yun.com",
    parent: "parent",
    parts: ["a.txt", "b.obj"],
    mimetype: "some content", relative: "some content", size: 42, post_id: 12}
@@ -36,6 +37,7 @@ defmodule Vr.AssetControllerTest do
       "filename" => asset.filename,
       "mimetype" => asset.mimetype,
       "relative" => asset.relative,
+      "murl" => asset.murl,
       "full" => asset.full,
       "size" => asset.size}
   end

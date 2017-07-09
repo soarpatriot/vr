@@ -44,6 +44,7 @@ defmodule Vr.PostView do
   def render("show-file.json", %{asset: asset}) do 
     %{
        full: asset.full,
+       murl: asset.murl,
        mimetype: asset.mimetype
     }
   end

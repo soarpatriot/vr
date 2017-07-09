@@ -6,6 +6,7 @@ defmodule Vr.Asset do
     field :mimetype, :string
     field :relative, :string
     field :full, :string
+    field :murl, :string
     field :size, :integer
     field :parent, :string
 
@@ -20,7 +21,7 @@ defmodule Vr.Asset do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:post_id, :filename, :mimetype, :relative, :full, :size, :parent])
+    |> cast(params, [:post_id, :filename, :mimetype, :relative, :full, :size, :parent, :murl])
     |> validate_required([:filename, :mimetype, :relative, :full, :size, :parent])
   end
 end
