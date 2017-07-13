@@ -19,7 +19,8 @@ defmodule Vr.Factory do
   end
   def cover_factory do 
     %Vr.Cover {
-      full: "cc"
+      full: "cc",
+      post: build(:post)
     }
   end
  

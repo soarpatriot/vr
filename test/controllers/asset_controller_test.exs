@@ -49,13 +49,15 @@ defmodule Vr.AssetControllerTest do
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, asset_path(conn, :create), asset: @valid_attrs
+    post = insert(:post)
+    params = Map.merge(@valid_attrs, %{post_id: post.id})
+    conn = post conn, asset_path(conn, :create), asset: params
     assert json_response(conn, 201)["data"]["id"]
     parts = @valid_attrs[:parts]
-    IO.puts "parts:"
-    IO.inspect parts
+    # IO.puts "parts:"
+    # IO.inspect parts
     assert Repo.get_by(Vr.Part, %{name: hd(parts)})
-    search_by = Map.drop(@valid_attrs, [:parts])
+    search_by = Map.drop(params, [:parts])
     assert Repo.get_by(Asset, search_by)
   end
 
@@ -65,10 +67,12 @@ defmodule Vr.AssetControllerTest do
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    asset = Repo.insert! %Asset{}
-    conn = put conn, asset_path(conn, :update, asset), asset: @valid_attrs
+    post = insert(:post)
+    asset = Repo.insert! %Asset{post_id: post.id}
+    params = Map.merge(@valid_attrs, %{post_id: post.id})
+    conn = put conn, asset_path(conn, :update, asset), asset: params
     assert json_response(conn, 200)["data"]["id"]
-    search_by = Map.drop(@valid_attrs, [:parts])
+    search_by = Map.drop(params, [:parts])
     assert Repo.get_by(Asset, search_by)
   end
 

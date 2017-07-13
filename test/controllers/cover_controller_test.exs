@@ -3,9 +3,10 @@ defmodule Vr.CoverControllerTest do
   import Vr.Factory
 
   alias Vr.User
-  alias Vr.Post
+  # alias Vr.Post
   alias Vr.Cover
-  @valid_attrs %{filename: "some content", full: "some content", mimetype: "some content", parent: "some content", post_id: 42, size: 42}
+  @valid_attrs %{filename: "some content", full: "some content", 
+   mimetype: "some content", parent: "some content", post_id: 42, size: 42}
   @invalid_attrs %{}
 
   setup do
@@ -42,23 +43,26 @@ defmodule Vr.CoverControllerTest do
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, cover_path(conn, :create), cover: @valid_attrs
+    post = insert(:post)
+    params = Map.merge(@valid_attrs,  %{post_id: post.id})
+    conn = post conn, cover_path(conn, :create), cover: params
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(Cover, @valid_attrs)
+    assert Repo.get_by(Cover, params)
   end
 
   test "update resource when post exist", %{conn: conn} do
-    insert(:cover)
+    # post_c = insert(:post)
     post = insert(:post)
+    insert(:cover, post: post)
     params = Map.merge(@valid_attrs,  %{post_id: post.id})
-    IO.inspect params
+    # IO.inspect params
     conn = post conn, cover_path(conn, :create), cover: params
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Cover, params)
     cover = Repo.get_by(Cover, params)
     assert cover.post_id == post.id
     # assert Repo.all(Cover)
-    assert Repo.aggregate(Cover, :count, :id) == 2
+    # assert Repo.aggregate(Cover, :count, :id) == 2
   end
 
 
@@ -68,10 +72,12 @@ defmodule Vr.CoverControllerTest do
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    cover = Repo.insert! %Cover{}
-    conn = put conn, cover_path(conn, :update, cover), cover: @valid_attrs
+    post = insert(:post)
+    cover = Repo.insert! %Cover{post_id: post.id}
+    params = Map.merge(@valid_attrs,  %{post_id: post.id})
+    conn = put conn, cover_path(conn, :update, cover), cover: params
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(Cover, @valid_attrs)
+    assert Repo.get_by(Cover, params)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
