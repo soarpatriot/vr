@@ -2,7 +2,7 @@ defmodule Vr.UserControllerTest do
   use Vr.ConnCase
 
   alias Vr.User
-  @valid_attrs %{email: "888@qq.com", name: "some content", password: "some content"}
+  @valid_attrs %{email: "soarpatriot@126.com", name: "some content", password: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do

@@ -1,10 +1,14 @@
 <div>
-  <p>Hello <%= @name %>!<p>
+  <p>您好 <%= @name %>!<p>
   <p>
-    Your new account is almost ready. Click the link below to confirm you new account.
-  </p>
+  您已成功注册三维云账号，请点击如下链接激活您的账号
+  </p> 
   <p>
-    <a href="<%= @url %>">Confirm my Account</a>
+    <a href="<%= @url %>">激活账号</a>
+  </p> 
+  <p>
+    或复制如下链接到浏览器地址栏激活账号。
+    <%= @url %>
   </p>
   <p>Thank you!</p>
 </div>

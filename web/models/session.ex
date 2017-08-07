@@ -26,5 +26,6 @@ defmodule Vr.Session do
         %{error: "invalid"} 
     end
   end
+
 end
 

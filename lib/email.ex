@@ -9,12 +9,15 @@ defmodule Vr.Email do
     |> subject("Welcome!")
     # |> text_body("Welcome to MyApp!")
   end
-  def welcome_html_email(email_address, url) do
-    email_address
-    |> welcome_text_email()
+  def validate_html_email(email_address, url, name) do
+    new_email
+    |> to(email_address)
+    |> from("soarpatriot@126.com")
+    |> subject("三维云账号激活")
+ 
     # |> html_body("<strong>Welcome<strong> to MyApp new ....!")
     # |> put_html_layout({Vr.LayoutView, "email.html"})
-    |> render("confirmation.html", %{url: "http://aa", name: "ccc"}) # <= Assignments
+    |> render("confirmation.html", %{url: url, name: name}) # <= Assignments
   end
 
 end

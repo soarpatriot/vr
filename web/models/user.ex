@@ -55,5 +55,26 @@ defmodule Vr.User do
       |> with_signer(hs256("my-loved-vr"))
       |> verify 
   end
-
+  
+  def send_verify_email(user) do
+    code = gen_verify(user.id)
+    verify_url = "#{Application.get_env(:vr, Vr.Assets)[:host_url]}/session/verified?code=#{code}"
+    Vr.Email.validate_html_email(user.email, verify_url, user.name) |> Vr.Mailer.deliver_later
+  end
+  def gen_verify(user_id) do 
+    # 3600s * 5
+     %{user_id: user_id, exp: current_time()+ 3600 * 5} 
+      |> token
+      |> with_signer(hs256("my_loved_code"))
+      |> sign
+      |> get_compact 
+  end
+ 
+  def verify_account(code) do
+    code 
+      |> token 
+      |> with_validation("exp", &(&1 > current_time()))
+      |> with_signer(hs256("my_loved_code"))
+      |> verify!
+  end
 end

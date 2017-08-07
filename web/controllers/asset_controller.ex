@@ -11,7 +11,7 @@ defmodule Vr.AssetController do
 
   def create(conn, %{"asset" => file_params}) do
     changeset = Asset.changeset(%Asset{}, file_params)
-    IO.inspect file_params["parts"]
+    # IO.inspect file_params["parts"]
     parts = Part.list(file_params["parts"]) 
     asset_with_parts = Ecto.Changeset.put_assoc(changeset, :parts, parts)
     case Repo.insert(asset_with_parts) do

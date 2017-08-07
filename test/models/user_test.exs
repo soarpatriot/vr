@@ -15,4 +15,10 @@ defmodule Vr.UserTest do
     changeset = User.changeset(%User{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "gen a valid token with user id" do 
+    code = User.gen_verify(12121)
+    result = User.verify_account(code)
+    assert {:ok, _} = result
+  end
 end
