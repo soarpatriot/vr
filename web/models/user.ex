@@ -6,8 +6,8 @@ defmodule Vr.User do
     field :name, :string
     field :email, :string
     field :crypted_password, :string
+    field :status, StatusEnum
     field :password, :string, virtual: true
-
     timestamps()
   end
   
@@ -47,7 +47,7 @@ defmodule Vr.User do
     |> with_signer(hs256("my-loved-vr"))
     |> sign
     |> get_compact
-  end  
+  end
   
   def verify_token(token_str) do 
     token_str

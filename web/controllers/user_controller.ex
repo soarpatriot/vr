@@ -52,4 +52,21 @@ defmodule Vr.UserController do
 
     send_resp(conn, :no_content, "")
   end
+
+  def verify(conn, %{"code" => code}) do 
+    case User.verify_account(code) do 
+      {:ok, claim } -> 
+        user = Repo.get!(User, claim[:user_id])
+        changeset = User.changeset(user, %{status: :active})
+
+        case Repo.update changeset do 
+          {:ok, user} ->
+            render(Vr.ChangesetView, "result.json", %{code: 0, msg: "验证成功，账号已激活！"})
+          {:error, changeset} ->
+            render(Vr.ChangesetView, "result.json", %{code: 2, msg: "激活错误！"})
+        end
+      _  ->
+        render(Vr.ChangesetView, "result.json", %{cdoe: 1, msg: "验证码不正确或失效!"})
+    end
+  end
 end

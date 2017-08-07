@@ -58,6 +58,7 @@ defmodule Vr.Mixfile do
      {:scrivener_ecto, "~> 1.1.3"},
      {:ex_admin, github: "smpallen99/ex_admin"},
      {:coherence, "~> 0.3"},
+     {:ecto_enum, "~> 1.0"},
      {:mellon, "~> 0.1.1"}]
   end
 
