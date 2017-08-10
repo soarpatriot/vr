@@ -5,8 +5,8 @@ defmodule Vr.Factory do
     %Vr.User {
       name: "aa",
       email: sequence(:email, &"eamil-#{&1}@example.com"),
-      password: "22222222"
-      
+      password: "22222222",
+      status: :registered
     }
 
   end

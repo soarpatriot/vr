@@ -57,6 +57,7 @@ defmodule Vr.Router do
     get "/posts/:id", PostController, :show 
     get "/highlights/lastest", HighlightController, :lastest 
     resources "/highlights", HighlightController, except: [:new, :edit]
+    put "/users/activation", UserController, :activation
     resources "/users", UserController, except: [:new, :edit]
     resources "/parts", PartController, except: [:new, :edit]
     post "/login", SessionController, :create

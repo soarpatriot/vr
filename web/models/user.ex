@@ -17,7 +17,7 @@ defmodule Vr.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :email, :password])
+    |> cast(params, [:name, :email, :password, :status])
     |> validate_required([:name, :email, :password])
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 6)

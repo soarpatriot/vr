@@ -1,5 +1,6 @@
 defmodule Vr.UserControllerTest do
   use Vr.ConnCase
+  import Vr.Factory
 
   alias Vr.User
   @valid_attrs %{email: "soarpatriot@126.com", name: "some content", password: "some content"}
@@ -59,5 +60,37 @@ defmodule Vr.UserControllerTest do
     conn = delete conn, user_path(conn, :delete, user)
     assert response(conn, 204)
     refute Repo.get(User, user.id)
+  end
+
+  test "active user account", %{conn: conn} do 
+    # IO.puts "111"
+    user_params = %{email: "23423423@qq.com", name: "aadfasd", password: "23423423423"}
+    changeset = User.registration_changeset(%User{}, user_params) 
+    # ch = User.registration_changeset(changeset)
+    # %User{email: "23423423@qq.com", name: "aadfasd", password: "23423423423"}
+    # user = insert!(:user, status: :registered, crypted_password: 23423423423)
+    # IO.inspect user
+    user = Repo.insert! changeset 
+    # IO.inspect user
+    code = User.gen_verify(user.id)
+    conn = put conn, user_path(conn, :activation), code: code
+    assert response(conn, 200)
+    assert json_response(conn, 200)["code"] == 0
+  end
+
+  test "invalid active code", %{conn: conn} do 
+    user_params = %{email: "23423423@qq.com", name: "aadfasd", password: "23423423423"}
+    changeset = User.registration_changeset(%User{}, user_params) 
+    # ch = User.registration_changeset(changeset)
+    # %User{email: "23423423@qq.com", name: "aadfasd", password: "23423423423"}
+    # user = insert!(:user, status: :registered, crypted_password: 23423423423)
+    # IO.inspect user
+    user = Repo.insert! changeset 
+    # IO.inspect user
+    code = User.gen_verify(user.id)
+    conn = put conn, user_path(conn, :activation), code: "invalid"
+    assert response(conn, 200)
+    assert json_response(conn, 200)["code"] == 1
+ 
   end
 end
