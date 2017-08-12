@@ -73,7 +73,7 @@ defmodule Vr.UserControllerTest do
     user = Repo.insert! changeset 
     # IO.inspect user
     code = User.gen_verify(user.id)
-    conn = put conn, user_path(conn, :activation), code: code
+    conn = get conn, user_path(conn, :activation), code: code
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 0
   end
@@ -88,7 +88,7 @@ defmodule Vr.UserControllerTest do
     user = Repo.insert! changeset 
     # IO.inspect user
     code = User.gen_verify(user.id)
-    conn = put conn, user_path(conn, :activation), code: "invalid"
+    conn = get conn, user_path(conn, :activation), code: "invalid"
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 1
  

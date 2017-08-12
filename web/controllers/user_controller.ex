@@ -66,7 +66,7 @@ defmodule Vr.UserController do
               |> render(Vr.ChangesetView, "result.json", %{code: 0, msg: "验证成功，账号已激活！"})
           {:error, user} ->
             conn 
-             |> render(Vr.ChangesetView, "result.json", %{code: 2, msg: "激活错误！"})
+              |> render(Vr.ChangesetView, "result.json", %{code: 2, msg: "激活错误！"})
         end
       _  ->
         conn
