@@ -1,12 +1,13 @@
 defmodule Vr.Session do
   use Vr.Web, :model
   alias Vr.User
+  alias Vr.Repo
   
-  def login(params, repo) do 
-    user = repo.get_by(User, email: String.downcase(params["email"]))
+  def login(params) do 
+    user = Repo.get_by(User, %{email: String.downcase(params["email"]), status: :active})
     case authenticated(user, params["password"]) do 
       true -> {:ok, user}
-      _ -> :error
+      _ -> {:error, "用户不存在或未激活！"}
     end
   end
   
