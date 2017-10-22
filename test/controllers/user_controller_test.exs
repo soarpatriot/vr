@@ -1,6 +1,6 @@
 defmodule Vr.UserControllerTest do
   use Vr.ConnCase
-  import Vr.Factory
+  # import Vr.Factory
 
   alias Vr.User
   @valid_attrs %{email: "soarpatriot@126.com", name: "some content", password: "some content"}
@@ -87,7 +87,7 @@ defmodule Vr.UserControllerTest do
     # IO.inspect user
     user = Repo.insert! changeset 
     # IO.inspect user
-    code = User.gen_verify(user.id)
+    User.gen_verify(user.id)
     conn = get conn, user_path(conn, :activation), code: "invalid"
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 1
