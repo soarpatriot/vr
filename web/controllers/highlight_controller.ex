@@ -61,6 +61,7 @@ defmodule Vr.HighlightController do
             |> preload(:user)
             |> preload(:cover)
             |> Repo.get!(highlight.post_id) 
+            |> Post.time_ago
     # render(conn, "show.json", post: post)
     render(conn, Vr.PostView, "show-extra.json", post: post)
 

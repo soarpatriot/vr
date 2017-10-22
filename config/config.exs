@@ -17,6 +17,8 @@ config :vr, Vr.Endpoint,
   pubsub: [name: Vr.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :timex, default_locale: "zh_CN"
+
 config :ex_admin,
   repo: Vr.Repo,
   module: Vr,

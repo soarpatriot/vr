@@ -27,6 +27,8 @@ defmodule Vr.HighlightControllerTest do
     user = insert(:user)
     file = insert(:asset, @file_attrs)
     post = insert(:post, user_id: user.id, asset: file)
+    p = Vr.Post.time_ago(post)
+    
     # file = insert(:file, post: post)
     insert(:highlight, post: post)
     conn = get conn, highlight_path(conn, :lastest)
@@ -35,6 +37,7 @@ defmodule Vr.HighlightControllerTest do
       "title" => post.title,
       "description" => post.description,
       "email" => user.email, 
+      "from_now" => p.from_now,
       "asset" => %{
         "id" => file.id,
         "full"=> file.full,

@@ -10,6 +10,7 @@ defmodule Vr.PostController do
             |> Repo.preload([asset: :parts])
             |> Repo.preload([:user])
             |> Repo.preload([:cover])
+            |> Post.convert_time
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)
@@ -61,6 +62,7 @@ defmodule Vr.PostController do
             |> preload(:user)
             |> preload([:cover])
             |> Repo.get!(id)
+            |> Post.time_ago
     # render(conn, "show.json", post: post)
     render(conn, "show-extra.json", post: post)
   end
