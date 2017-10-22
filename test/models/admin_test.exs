@@ -4,7 +4,8 @@ defmodule Vr.AdminTest do
   alias Vr.Admin
 
   @valid_attrs %{email: "some content", name: "some content", password: "23423423423"}
-  @invalid_attrs %{}
+  @invalid_attrs %{password: "124ffffff"}
+  # @invalid_attrs %{}
 
   test "changeset with valid attributes" do
     changeset = Admin.changeset(%Admin{}, @valid_attrs)

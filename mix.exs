@@ -16,15 +16,17 @@ defmodule Vr.Mixfile do
   # Configuration for the OTP application.
   #
   # Type `mix help compile.app` for more information.
+  # :hound reomved
   def application do
     [mod: {Vr, []},
      applications: [:ex_machina, :phoenix, :phoenix_pubsub,:phoenix_html, 
                     :cowboy, :logger, :gettext,:comeonin,
                     :joken, :mellon, :scrivener_headers, :cors_plug,
                     :keccakf1600, :libdecaf, :libsodium, 
-                    :ex_admin, :exactor, :hound,
+                    :ex_admin, :exactor,
                     :coherence,
                     :bamboo,
+                    :timex_ecto,
                     :bamboo_smtp,
                     :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
@@ -37,14 +39,14 @@ defmodule Vr.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.2.0"},
+    [{:phoenix, "~> 1.3.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 3.0"},
+     {:phoenix_ecto, "~> 3.2"},
      {:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 2.4"},
+     {:comeonin, "~> 3.0"},
      {:exrm, "~> 1.0.8"},
      {:cors_plug, "~> 1.1"},
      {:ex_machina, "~> 1.0"},
@@ -57,8 +59,10 @@ defmodule Vr.Mixfile do
      {:scrivener_headers, "~> 3.0"},
      {:scrivener_ecto, "~> 1.1.3"},
      {:ex_admin, github: "smpallen99/ex_admin"},
-     {:coherence, "~> 0.3"},
-     {:ecto_enum, "~> 1.0"},
+     {:coherence, "~> 0.5"},
+     {:ecto_enum, "~> 1.0.2"},
+     {:timex, "~> 3.0"},
+     {:timex_ecto, "~> 3.0"},
      {:mellon, "~> 0.1.1"}]
   end
 
