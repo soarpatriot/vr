@@ -18,12 +18,12 @@ services:
   #    - /home/soar/source/vr:/data/www/vr
   #  command: bash -c "npm install"
   web: 
-    build: ./web
-    image: soar/vr:1.0.2
+    build: ./docker/web
+    image: soar/vr:1.0.3
     container_name: vr
     volumes: 
-      - <%= current_path %>:/data/www/vr
-    command: bash -c <%= fetch(:commands) %>
+      - <%= fetch(:deploy_to) %>:/data/www/vr
+    command: bash -c "<%= fetch(:commands) %>"
     #"npm install && mix deps.get && mix ecto.create && mix ecto.migrate && iex -S mix phoenix.server"
     ports: 
       - 4000:4000
