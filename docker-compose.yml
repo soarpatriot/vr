@@ -1,0 +1,30 @@
+version: '2'
+services: 
+  db: 
+    image: postgres:9.6.5
+    container_name: postgres
+    restart: always
+    ports: 
+      - 5432:5432
+    volumes: 
+      - /pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=soar1234
+  #node: 
+  #  build: ./node
+  #  container_name: vr-node
+  #  image: soar/vr-node:1.0.1
+  #  volumes: 
+  #    - /home/soar/source/vr:/data/www/vr
+  #  command: bash -c "npm install"
+  web: 
+    build: ./docker/web
+    image: soar/vr:1.0.2
+    container_name: vr
+    volumes: 
+      - /home/soar/source/vr:/data/www/vr
+    command: bash -c "npm install && mix deps.get && mix ecto.create && mix ecto.migrate && iex -S mix phoenix.server"
+    ports: 
+      - 4000:4000
+    links: 
+      - db
