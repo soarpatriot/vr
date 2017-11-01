@@ -27,8 +27,9 @@ set :scm, :git
 set :linked_files, fetch(:linked_files, []).push('config/prod.secret.exs','config/prod.exs', 'docker-compose.yml')
 
 # Default value for linked_dirs is []
+# rel _build
 set :linked_dirs, fetch(:linked_dirs, [])
-  .push('deps', 'node_modules', 'rel', '_build','log')
+  .push('deps', 'node_modules', 'log')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -52,11 +53,16 @@ namespace :deploy do
  
   desc 'restart phoenix app'
   task :restart do
+    invoke 'deploy:stop' 
+    invoke 'deploy:start' 
+  end
+  task :start do 
     on roles(:all), in: :sequence do
       within current_path  do
         execute :"docker-compose", "up -d"
       end
     end
+
   end
   task :stop do 
     on roles(:all), in: :sequence do
@@ -64,9 +70,13 @@ namespace :deploy do
         execute :"docker-compose", "down"
       end
     end
-
+  end
+  task :chown do 
+    on roles(:all), in: :sequence do
+      execute :echo, "start && sudo chown -R -v #{fetch(:user)}:#{fetch(:user)} #{fetch(:deploy_to)}/shared"
+    end
   end
   after :check, "docker:upload_compose"
-  after :publishing, "build"
+  # after :publishing, "deploy:chown"
   after :published, "restart"
 end
