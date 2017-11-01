@@ -38,7 +38,9 @@ set :mix_env, 'prod'
 set :keep_releases, 5
 # set :phoenix_mix_env -> 'prod' #default fetch(:mix_env)
  #&& MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest && MIX_ENV=#{fetch(:mix_env)} mix ompile && MIX_ENV=#{fetch(:mix_env)} mix release"
-set :commands, "cd current && npm install && MIX_ENV=#{fetch(:mix_env)} mix deps.get  --only prod && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate\
+set :commands, "cd current && npm install &&HEX_MIRROR=https://hexpm.upyun.com MIX_ENV=#{fetch(:mix_env)} mix deps.get  --only prod\
+        && ./node_modules/brunch/bin/brunch build --production\
+        && MIX_ENV=#{fetch(:mix_env)} mix ecto.create && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate\
         && MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest && MIX_ENV=#{fetch(:mix_env)} iex -S mix phoenix.server"
 namespace :deploy do
   task :build do
