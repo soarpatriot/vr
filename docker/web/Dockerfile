@@ -1,7 +1,7 @@
 FROM elixir:1.5.2
 MAINTAINER soar <85624529@qq.com>
 
-RUN sudo apt-get update && sudo apt-get install -y wget
+RUN apt-get update && apt-get install -y wget
 
 RUN mix local.hex --force && mix local.rebar --force
 
