@@ -1,6 +1,6 @@
 set :stage, :production
-set :server_name, "api.dreamreality.cn"
-set :branch, "master"
+set :server_name, "47.93.174.156"
+set :branch, "dev"
 set :deploy_to, "/data/www/vr"
 set :mix_env, 'prod'
 server fetch(:server_name), user: "soar", roles: %w{web app db}
