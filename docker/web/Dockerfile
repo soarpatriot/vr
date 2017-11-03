@@ -3,8 +3,6 @@ MAINTAINER soar <85624529@qq.com>
 
 RUN apt-get update && apt-get install -y wget
 
-RUN mix local.hex --force && mix local.rebar --force
-
 # add node 8.8.0
 # gpg keys listed at https://github.com/nodejs/node#release-team
 WORKDIR /soft
