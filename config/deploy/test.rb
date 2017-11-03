@@ -3,7 +3,9 @@ set :server_name, "10.3.22.60"
 set :branch, "dev"
 set :deploy_to, "/data/www/vr"
 set :mix_env, 'prod'
-server fetch(:server_name), user: "soar", roles: %w{web app db}
+set :user, 'soar'
+set :user_home, "/home/#{fetch(:user)}"
+server fetch(:server_name), user: "#{fetch(:user)}", roles: %w{web app db}
 
 
 
