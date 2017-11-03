@@ -19,7 +19,7 @@ services:
   #  command: bash -c "npm install"
   web: 
     build: ./docker/web
-    image: soar/vr:1.0.3
+    image: soar/vr:1.0.4
     container_name: vr
     volumes: 
       - <%= fetch(:user) %>/.mix:/root/.mix
