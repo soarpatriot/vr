@@ -64,6 +64,7 @@ defmodule Vr.Mixfile do
      {:ecto_enum, "~> 1.0.2"},
      {:timex, "~> 3.0"},
      {:timex_ecto, "~> 3.0"},
+     {:mock, "~> 0.2.0", only: :test},
      {:mellon, "~> 0.1.1"}]
   end
 

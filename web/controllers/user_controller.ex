@@ -74,4 +74,20 @@ defmodule Vr.UserController do
           |> render(Vr.ChangesetView, "result.json", %{code: 1, msg: "验证码不正确或失效!"})
     end
   end
+
+  def reactivation(conn, %{"email" => email}) do 
+    # user = Vr.Repo.get_by(User, email: email)
+    case Vr.Repo.get_by(User, email: email) do
+      nil -> 
+        conn |> render(Vr.ChangesetView, "result.json", %{code: 1, msg: "此邮箱未关联账号，请检查您的邮箱是否填写正确！"})
+      user -> 
+        case user.status do 
+          :active -> 
+            conn |> render(Vr.ChangesetView, "result.json", %{code: 2, msg: "邮箱未关联账号已经激活！"})
+          _ ->
+            User.send_verify_email(user)
+            conn |> render(Vr.ChangesetView, "result.json", %{code: 0, msg: "已发送激活邮件到您的邮箱，5小时内有效，请注意查收！"})
+        end
+    end
+  end
 end
