@@ -57,13 +57,3 @@ config :coherence, Vr.Coherence.Mailer,
   adapter: Swoosh.Adapters.Sendgrid,
   api_key: "your api key here"
 # %% End Coherence Configuration %%
-
-config :vr, Vr.Mailer,
-  adapter: Bamboo.SMTPAdapter,
-  server: "smtp.126.com",
-  port: 25,
-  username: "soarpatriot@126.com",
-  password: "soar@1116",
-  tls: :if_available, # can be `:always` or `:never`
-  ssl: false, # can be `true`
-  retries: 1

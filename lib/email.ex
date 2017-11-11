@@ -12,7 +12,7 @@ defmodule Vr.Email do
   def validate_html_email(email_address, url, name) do
     new_email
     |> to(email_address)
-    |> from("soarpatriot@126.com")
+    |> from("admin@mail.dreamreality.cn")
     |> subject("三维云账号激活")
  
     # |> html_body("<strong>Welcome<strong> to MyApp new ....!")
