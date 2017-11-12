@@ -29,7 +29,7 @@ set :linked_files, fetch(:linked_files, []).push('config/prod.secret.exs','confi
 # Default value for linked_dirs is []
 # rel _build
 set :linked_dirs, fetch(:linked_dirs, [])
-  .push('deps', 'node_modules', 'log')
+  .push('deps', 'node_modules', 'log', '_build')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -45,6 +45,10 @@ set :install_commands, "cd current\
         && MIX_ENV=#{fetch(:mix_env)} mix hex.repo set hexpm --url https://hexpm.upyun.com\
         && MIX_ENV=#{fetch(:mix_env)} mix deps.get --only prod"
 set :commands, "cd current\ 
+        && MIX_ENV=#{fetch(:mix_env)} mix local.hex --force\
+        && MIX_ENV=#{fetch(:mix_env)} mix local.rebar --force\
+        && MIX_ENV=#{fetch(:mix_env)} mix hex.repo set hexpm --url https://hexpm.upyun.com\
+        && MIX_ENV=#{fetch(:mix_env)} mix deps.get --only prod\
         && npm install\
         && ./node_modules/brunch/bin/brunch build --production\
         && MIX_ENV=#{fetch(:mix_env)} mix ecto.create && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate\

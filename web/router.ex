@@ -1,7 +1,7 @@
 defmodule Vr.Router do
   use Vr.Web, :router
-  use Coherence.Router
   use ExAdmin.Router
+  use Coherence.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -9,7 +9,7 @@ defmodule Vr.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Coherence.Authentication.Session  # Add this
+    plug Coherence.Authentication.Session
   end
 
   pipeline :protected do
@@ -18,13 +18,15 @@ defmodule Vr.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Coherence.Authentication.Session, protected: true
+    plug Coherence.Authentication.Session
+    # plug Coherence.Authentication.Session, login: true
+    # plug Coherence.Authentication.Session, protected: true
   end
 
   # Add this block
   scope "/" do
     pipe_through :browser
-    coherence_routes()
+    coherence_routes :public
   end
 
   # Add this block
@@ -63,6 +65,7 @@ defmodule Vr.Router do
     resources "/parts", PartController, except: [:new, :edit]
     post "/login", SessionController, :create
   end
+
   scope "/admin", ExAdmin do
     pipe_through :protected
     admin_routes()

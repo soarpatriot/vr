@@ -36,18 +36,16 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
-
 config :xain, :after_callback, {Phoenix.HTML, :raw}
-
 
 # %% Coherence Configuration %%   Don't remove this line
 config :coherence,
   user_schema: Vr.Admin,
   repo: Vr.Repo,
   module: Vr,
+  web_module: Vr.Web,
+  router: Vr.Router,
+  messages_backend: Vr.Coherence.Messages,
   logged_out_url: "/",
   email_from_name: "Your Name",
   email_from_email: "yourname@example.com",
@@ -57,3 +55,9 @@ config :coherence, Vr.Coherence.Mailer,
   adapter: Swoosh.Adapters.Sendgrid,
   api_key: "your api key here"
 # %% End Coherence Configuration %%
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"
+
+

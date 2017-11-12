@@ -1,4 +1,3 @@
-defmodule Coherence.RegistrationView do
+defmodule Vr.Coherence.RegistrationView do
   use Vr.Coherence.Web, :view
-
 end

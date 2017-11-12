@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services: 
   db: 
     image: postgres:9.6.5
@@ -10,6 +10,7 @@ services:
       - /pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=soar1234
+ 
   #node: 
   #  build: ./node
   #  container_name: vr-node
@@ -17,15 +18,6 @@ services:
   #  volumes: 
   #    - /home/soar/source/vr:/data/www/vr
   #  command: bash -c "npm install"
-  install:
-    build: ./docker/web
-    image: soar/vr:1.0.4
-    command: bash -c "<%= fetch(:install_commands) %>"
-    container_name: dep
-    volumes:
-      - <%= fetch(:user_home) %>/.hex:/root/.hex
-      - <%= fetch(:user_home) %>/.mix:/root/.mix
-      - <%= fetch(:deploy_to) %>:/data/www/vr
   web: 
     build: ./docker/web
     image: soar/vr:1.0.4
@@ -38,7 +30,5 @@ services:
     #"npm install && mix deps.get && mix ecto.create && mix ecto.migrate && iex -S mix phoenix.server"
     ports: 
       - 4000:4000
-    depends_on:
-      - install 
     links: 
       - db
