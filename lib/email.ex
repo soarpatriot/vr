@@ -12,7 +12,7 @@ defmodule Vr.Email do
   def validate_html_email(email_address, url, name) do
     new_email()
     |> to(email_address)
-    |> from("admin@mail.dreamreality.cn")
+    |> from(from_email())
     |> subject("三维云账号激活")
  
     # |> html_body("<strong>Welcome<strong> to MyApp new ....!")
@@ -20,4 +20,7 @@ defmodule Vr.Email do
     |> render("confirmation.html", %{url: url, name: name}) # <= Assignments
   end
 
+  defp from_email() do 
+    Application.get_env(:vr, Vr.Mailer)[:account_name]
+  end
 end

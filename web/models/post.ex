@@ -10,6 +10,7 @@ defmodule Vr.Post do
     field :from_now, :string, virtual: true
     timestamps()
     belongs_to :user, Vr.User
+    belongs_to :tag, Vr.Tag
     has_one :cover, Vr.Cover, on_delete: :delete_all
     has_one :asset, Vr.Asset, on_delete: :delete_all
   end

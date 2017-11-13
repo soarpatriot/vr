@@ -10,13 +10,17 @@ use Mix.Config
 # or recreate for your teammates (or you later on).
 
 # Configure your database
+#
 config :vr, Vr.Mailer,
-  adapter: Bamboo.SMTPAdapter,
-  server: "smtp.126.com",
-  port: 25,
-  username: "soarpatriot@126.com",
-  password: "soar1111",
-  tls: :if_available, # can be `:always` or `:never`
-  ssl: false, # can be `true`
-  retries: 1
-
+  #adapter: Bamboo.MailgunAdapter,
+  domain: "mail.dreamreality.cn",
+  adapter: Bamboo.AliyunAdapter,
+  uri: "https://dm.aliyuncs.com",
+  version: "2015-11-23",
+  region_id: "cn-hangzhou",
+  access_key_id: "HhBbxlBtSk0rL5wm",
+  account_name: "admin@mail.dreamreality.cn",
+  access_key_secret: "YJrHRqxAfpC2xmc6DT04SWgc4tPr5c",
+  address_type: 1,
+  reply_to_address: false,
+  click_trace: 1
