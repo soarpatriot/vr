@@ -62,10 +62,10 @@ defmodule Vr.UserController do
         user = Ecto.Changeset.change user, status: :active
 
         case Repo.update(user) do 
-          {:ok, user} ->
+          {:ok, _} ->
             conn
               |> render(Vr.ChangesetView, "result.json", %{code: 0, msg: "验证成功，账号已激活！"})
-          {:error, user} ->
+          {:error, _} ->
             conn 
               |> render(Vr.ChangesetView, "result.json", %{code: 2, msg: "激活错误！"})
         end

@@ -3,14 +3,14 @@ defmodule Vr.Email do
   # import Bamboo.Email
   # import Bamboo.Phoenix
   def welcome_text_email(email_address) do
-    new_email
+    new_email()
     |> to(email_address)
     |> from("soarpatriot@126.com")
     |> subject("Welcome!")
     # |> text_body("Welcome to MyApp!")
   end
   def validate_html_email(email_address, url, name) do
-    new_email
+    new_email()
     |> to(email_address)
     |> from("admin@mail.dreamreality.cn")
     |> subject("三维云账号激活")

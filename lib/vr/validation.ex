@@ -8,7 +8,7 @@ defmodule Vr.Validation do
   defp handle(%{error: nil, claims: claims}, conn) do
     {:ok, claims, conn}
   end
-  defp handle(%{error: error}, conn) do
+  defp handle(%{error: _}, conn) do
     {:error, [], conn}
   end 
 end

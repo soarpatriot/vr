@@ -15,7 +15,8 @@ config :vr, Vr.Mailer,
   server: "smtp.126.com",
   port: 25,
   username: "soarpatriot@126.com",
-  password: "soar@1116",
+  password: "soar1111",
   tls: :if_available, # can be `:always` or `:never`
   ssl: false, # can be `true`
   retries: 1
+

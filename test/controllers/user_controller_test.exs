@@ -12,13 +12,13 @@ defmodule Vr.UserControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get build_conn, user_path(conn, :index)
+    conn = get build_conn(), user_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
     user = Repo.insert! %User{}
-    conn = get build_conn, user_path(conn, :show, user)
+    conn = get build_conn(), user_path(conn, :show, user)
     assert json_response(conn, 200)["data"] == %{"id" => user.id,
       "name" => user.name,
       "email" => user.email}
@@ -31,20 +31,20 @@ defmodule Vr.UserControllerTest do
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post build_conn, user_path(conn, :create), user: @valid_attrs
+    conn = post conn, user_path(conn, :create), user: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
     m = %{name: @valid_attrs[:name], email: @valid_attrs[:email]}
     assert Repo.get_by(User, m).crypted_password
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post build_conn, user_path(conn, :create), user: @invalid_attrs
+    conn = post build_conn(), user_path(conn, :create), user: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     user = Repo.insert! %User{}
-    conn = put build_conn, user_path(conn, :update, user), user: @valid_attrs
+    conn = put build_conn(), user_path(conn, :update, user), user: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
     m = %{name: @valid_attrs[:name], email: @valid_attrs[:email]}
     assert Repo.get_by(User, m)
@@ -52,13 +52,13 @@ defmodule Vr.UserControllerTest do
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     user = Repo.insert! %User{}
-    conn = put build_conn, user_path(conn, :update, user), user: @invalid_attrs
+    conn = put build_conn(), user_path(conn, :update, user), user: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen resource", %{conn: conn} do
     user = Repo.insert! %User{}
-    conn = delete build_conn, user_path(conn, :delete, user)
+    conn = delete build_conn(), user_path(conn, :delete, user)
     assert response(conn, 204)
     refute Repo.get(User, user.id)
   end
@@ -74,7 +74,7 @@ defmodule Vr.UserControllerTest do
     user = Repo.insert! changeset 
     # IO.inspect user
     code = User.gen_verify(user.id)
-    conn = get build_conn, user_path(conn, :activation), code: code
+    conn = get build_conn(), user_path(conn, :activation), code: code
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 0
   end
@@ -89,21 +89,21 @@ defmodule Vr.UserControllerTest do
     user = Repo.insert! changeset 
     # IO.inspect user
     User.gen_verify(user.id)
-    conn = get build_conn, user_path(conn, :activation), code: "invalid"
+    conn = get build_conn(), user_path(conn, :activation), code: "invalid"
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 1
  
   end
    
   test "invalid reactive, email not exist" do 
-    conn = post build_conn, user_path(conn, :reactivation), email: "noexist@qq.com"
+    conn = post build_conn(), user_path(build_conn(), :reactivation), email: "noexist@qq.com"
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 1
   end
 
   test "invalid reactive, status already active" do 
     user = insert(:user, email: "85624529@qq.com", status: :active)
-    conn = post build_conn, user_path(conn, :reactivation), email: user.email
+    conn = post build_conn(), user_path(build_conn(), :reactivation), email: user.email
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 2
   end
@@ -111,7 +111,7 @@ defmodule Vr.UserControllerTest do
     user = insert(:user, email: "85624529@qq.com")
     #Vr.Mailer.deliver_later
     with_mock Vr.Mailer, [deliver_later: fn(_user) -> "<html></html>" end] do 
-      conn = post build_conn, user_path(conn, :reactivation), email: user.email
+      conn = post build_conn(), user_path(build_conn(), :reactivation), email: user.email
       assert response(conn, 200)
       assert json_response(conn, 200)["code"] == 0
     end
