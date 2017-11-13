@@ -59,6 +59,7 @@ defmodule Vr.HighlightController do
     post = Post 
             |> preload([asset: :parts])
             |> preload(:user)
+            |> preload(:tag)
             |> preload(:cover)
             |> Repo.get!(highlight.post_id) 
             |> Post.time_ago

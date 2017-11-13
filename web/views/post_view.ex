@@ -20,6 +20,18 @@ defmodule Vr.PostView do
           from_now: post.from_now,
           cover: render_one(post.cover, Vr.CoverView, "show.json"),
           asset: render_one(post.asset, Vr.AssetView, "simple-file.json")}
+
+    tag = 
+      case !is_nil(post.tag) do 
+        true ->
+          %{tag: %{
+            code: post.tag.code,
+            name: post.tag.name
+          }}
+        false -> 
+          %{}
+      end
+
     user = 
       case !is_nil(post.user) do 
         true ->
@@ -32,7 +44,7 @@ defmodule Vr.PostView do
    
       end
       # Map.merge(base, file) |> Map.merge(user)
-      Map.merge(base, user)
+      Map.merge(base, user) |> Map.merge(tag)
   end
 
   def render("post.json", %{post: post}) do

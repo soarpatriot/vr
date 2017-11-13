@@ -10,6 +10,7 @@ defmodule Vr.PostController do
             |> Repo.preload([asset: :parts])
             |> Repo.preload([:user])
             |> Repo.preload([:cover])
+            |> Repo.preload([:tag])
             |> Post.convert_time
     conn 
       |> Scrivener.Headers.paginate(page)
@@ -36,6 +37,7 @@ defmodule Vr.PostController do
                 |> Ecto.Changeset.put_assoc(:asset, asset)
                 |> Repo.update!
                 |> Repo.preload([:asset, :user])
+                |> Repo.preload([:tag])
               conn
                 |> put_status(:created)
                 |> put_resp_header("location", post_path(conn, :show, post))
@@ -61,6 +63,7 @@ defmodule Vr.PostController do
             |> preload([asset: :parts])
             |> preload(:user)
             |> preload([:cover])
+            |> preload([:tag])
             |> Repo.get!(id)
             |> Post.time_ago
     # render(conn, "show.json", post: post)
@@ -74,6 +77,7 @@ defmodule Vr.PostController do
     #post = Repo.one |> where([p], p.id == id, p.user_id == user_id)
     post = Post 
               |> Post.with_user_file
+              |> preload([:tag])
               |> Repo.get_by(%{id: id, user_id: user_id})
     if is_nil(post) do 
       conn
@@ -112,6 +116,7 @@ defmodule Vr.PostController do
     posts = page.entries
             |> Repo.preload([asset: :parts])
             |> Repo.preload([:user])
+            |> Repo.preload([:tag])
             |> Repo.preload([:cover])
     conn 
       |> Scrivener.Headers.paginate(page)
