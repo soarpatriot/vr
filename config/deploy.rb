@@ -71,7 +71,7 @@ namespace :deploy do
       within current_path  do 
         #exist = capture("docker ps -a  | grep web")
         #puts "a is #{exist}"
-        #execute :"docker", "container prune -f"
+        execute :"docker", "container prune -f"
         #if exist.empty?
         execute :"docker-compose", "up -d"
         #else
@@ -82,11 +82,16 @@ namespace :deploy do
 
   end
   task :stop do 
+  end
+  task :compose_down do 
     on roles(:all), in: :sequence do
       within current_path  do
         execute :"docker-compose", "down"
+        info "The applicaton is shutting down!"
+        #execute :"sleep","20"
       end
     end
+
   end
   task :change_right do 
     on roles(:all), in: :sequence do
@@ -95,6 +100,6 @@ namespace :deploy do
   end
   before :cleanup, :change_right
   before :check, "docker:upload_compose"
-  # after :publishing, "deploy:chown"
+  before :publishing, "deploy:compose_down"
   after :published, "restart"
 end
