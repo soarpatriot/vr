@@ -4,6 +4,7 @@ services:
     image: postgres:9.6.5
     container_name: postgres
     restart: always
+    network_mode: "bridge"
     ports: 
       - 5432:5432
     volumes: 
@@ -22,6 +23,7 @@ services:
     build: ./docker/web
     image: soar/vr:1.0.4
     container_name: vr
+    network_mode: "bridge"
     volumes: 
       - <%= fetch(:user_home) %>/.hex:/root/.hex
       - <%= fetch(:user_home) %>/.mix:/root/.mix

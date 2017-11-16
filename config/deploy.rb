@@ -68,8 +68,15 @@ namespace :deploy do
   end
   task :start do 
     on roles(:all), in: :sequence do
-      within current_path  do
+      within current_path  do 
+        #exist = capture("docker ps -a  | grep web")
+        #puts "a is #{exist}"
+        #execute :"docker", "container prune -f"
+        #if exist.empty?
         execute :"docker-compose", "up -d"
+        #else
+        #  execute :"docker-compose", "restart -t 30 web"
+        #end
       end
     end
 
@@ -81,12 +88,13 @@ namespace :deploy do
       end
     end
   end
-  task :chown do 
+  task :change_right do 
     on roles(:all), in: :sequence do
-      execute :echo, "start && sudo chown -R -v #{fetch(:user)}:#{fetch(:user)} #{fetch(:deploy_to)}/shared"
+      execute :echo, "start && sudo chown -R #{fetch(:user)} #{fetch(:deploy_to)}/shared"
     end
   end
-  after :check, "docker:upload_compose"
+  before :cleanup, :change_right
+  before :check, "docker:upload_compose"
   # after :publishing, "deploy:chown"
   after :published, "restart"
 end
