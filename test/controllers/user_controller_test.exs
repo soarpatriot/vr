@@ -20,12 +20,14 @@ defmodule Vr.UserControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    user = Repo.insert! %User{}
+    now = DateTime.utc_now()
+    user = Repo.insert! %User{inserted_at: now}
     conn = get build_conn(), user_path(conn, :show, user)
     assert json_response(conn, 200)["data"] == %{"id" => user.id,
       "name" => user.name,
       "email" => user.email,
-      "status" => "registered"
+      "status" => "registered",
+      "inserted_at" => Vr.Convert.native_to_timestamp(now)
     }
 
   end

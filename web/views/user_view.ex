@@ -13,8 +13,8 @@ defmodule Vr.UserView do
     %{id: user.id,
       name: user.name,
       email: user.email,
-      status: user.status
-      # inserted_at: Vr.Convert.native_to_timestamp(user.inserted_at)
+      status: user.status,
+      inserted_at: Vr.Convert.native_to_timestamp(user.inserted_at)
     }
   end
 
