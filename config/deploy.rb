@@ -39,12 +39,7 @@ set :mix_env, 'prod'
 set :keep_releases, 5
 # set :phoenix_mix_env -> 'prod' #default fetch(:mix_env)
  #&& MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest && MIX_ENV=#{fetch(:mix_env)} mix ompile && MIX_ENV=#{fetch(:mix_env)} mix release"
-set :install_commands, "cd current\
-        && MIX_ENV=#{fetch(:mix_env)} mix local.hex --force\
-        && MIX_ENV=#{fetch(:mix_env)} mix local.rebar --force\
-        && MIX_ENV=#{fetch(:mix_env)} mix hex.repo set hexpm --url https://hexpm.upyun.com\
-        && MIX_ENV=#{fetch(:mix_env)} mix deps.get --only prod"
-set :commands, "cd current\ 
+set :compile_commands, "cd current\
         && MIX_ENV=#{fetch(:mix_env)} mix local.hex --force\
         && MIX_ENV=#{fetch(:mix_env)} mix local.rebar --force\
         && MIX_ENV=#{fetch(:mix_env)} mix hex.repo set hexpm --url https://hexpm.upyun.com\
@@ -52,7 +47,10 @@ set :commands, "cd current\
         && npm install\
         && ./node_modules/brunch/bin/brunch build --production\
         && MIX_ENV=#{fetch(:mix_env)} mix ecto.create && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate\
-        && MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest && MIX_ENV=#{fetch(:mix_env)} iex -S mix phoenix.server"
+        && MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest"
+ 
+set :commands, "cd current\ 
+        && MIX_ENV=#{fetch(:mix_env)} iex -S mix phoenix.server"
 namespace :deploy do
   task :build do
     on roles(:all), in: :sequence do
