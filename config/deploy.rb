@@ -24,7 +24,7 @@ set :scm, :git
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('config/prod.secret.exs','config/prod.exs', 'docker-compose.yml')
+set :linked_files, fetch(:linked_files, []).push('config/prod.secret.exs','config/prod.exs')
 
 # Default value for linked_dirs is []
 # rel _build
@@ -55,6 +55,8 @@ namespace :deploy do
   task :build do
     on roles(:all), in: :sequence do
       within current_path  do
+        execute :"docker", "container prune -f"
+        execute :"docker-compose", "-f docker-compose-compile.yml up"
       end
     end
   end
@@ -93,11 +95,17 @@ namespace :deploy do
   end
   task :change_right do 
     on roles(:all), in: :sequence do
-      execute :echo, "start && sudo chown -R #{fetch(:user)} #{fetch(:deploy_to)}/shared"
+      execute :echo, "start && sudo chown -R #{fetch(:user)} #{fetch(:deploy_to)}"
     end
   end
+  task :upload do 
+    invoke "docker:upload_compose_compile"
+    invoke "docker:upload_compose"
+    invoke "docker:upload_web"
+  end
   before :cleanup, :change_right
-  before :check, "docker:upload_compose"
-  before :publishing, "deploy:compose_down"
-  after :published, "restart"
+  #before :check, "docker:upload_compose"
+  #before :publishing, "deploy:compose_down"
+  after :published, :upload
+  after :finished, :build
 end
