@@ -61,6 +61,7 @@ defmodule Vr.Router do
     get "/highlights/lastest", HighlightController, :lastest 
     resources "/highlights", HighlightController, except: [:new, :edit]
     get "/users/activation", UserController, :activation
+    get "/users/:id/posts", UserController, :posts
     post "/users/reactivation", UserController, :reactivation
     resources "/users", UserController, except: [:new, :edit]
     resources "/parts", PartController, except: [:new, :edit]

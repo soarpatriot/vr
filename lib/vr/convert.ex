@@ -13,4 +13,8 @@ defmodule Vr.Convert do
     |> :calendar.datetime_to_gregorian_seconds
     |> -(@epoch)
   end
+ 
+  def native_to_timestamp(native_datetime) do 
+    native_datetime |> NaiveDateTime.to_erl |> to_timestamp
+  end
 end

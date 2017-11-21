@@ -3,6 +3,7 @@ defmodule Vr.ValidationTest do
   import Vr.Factory
   alias Vr.User
   setup do
+    # now = DateTime.now
     user = insert(:user)
     token = User.generate_token(user)
     conn = build_conn() |> put_req_header( "accept", "application/json")

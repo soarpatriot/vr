@@ -14,6 +14,7 @@ defmodule Vr.UserView do
       name: user.name,
       email: user.email,
       status: user.status
+      # inserted_at: Vr.Convert.native_to_timestamp(user.inserted_at)
     }
   end
 end

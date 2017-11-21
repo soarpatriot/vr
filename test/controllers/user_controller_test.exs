@@ -5,6 +5,9 @@ defmodule Vr.UserControllerTest do
 
   alias Vr.User
   @valid_attrs %{email: "soarpatriot@126.com", name: "some content", password: "some content"}
+  @file_attrs  %{ filename: "aa", parent: "asff",
+    murl: "http://yun.com", relative: "bb", full: "cc", size: 30, mimetype: "jpeg" }  
+ 
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -120,5 +123,15 @@ defmodule Vr.UserControllerTest do
     end
   end
 
+  test "user's posts"  do 
+    user = insert(:user)
+    file = insert(:asset, @file_attrs)
+    insert(:post, user_id: user.id, asset: file)
+    # insert(:post, user_id: user.id, assets: [file1])
+    conn = get conn, user_path(conn, :posts, user)
+    assert response(conn, 200)
+    assert length(json_response(conn, 200)["data"]) == 1
+ 
+  end
 
 end
