@@ -21,7 +21,10 @@ defmodule Vr.UserControllerTest do
     conn = get build_conn(), user_path(conn, :show, user)
     assert json_response(conn, 200)["data"] == %{"id" => user.id,
       "name" => user.name,
-      "email" => user.email}
+      "email" => user.email,
+      "status" => "registered"
+    }
+
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

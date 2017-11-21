@@ -1,0 +1,14 @@
+version: '3'
+services: 
+
+  compile: 
+    build: ./docker/web
+    image: soar/vr:1.0.4
+    container_name: vr
+    network_mode: "bridge"
+    volumes: 
+      - <%= fetch(:user_home) %>/.hex:/root/.hex
+      - <%= fetch(:user_home) %>/.mix:/root/.mix
+      - <%= fetch(:deploy_to) %>:/data/www/vr
+    command: bash -c "<%= fetch(:compile_commands) %>"
+    #"npm install && mix deps.get && mix ecto.create && mix ecto.migrate && iex -S mix phoenix.server"

@@ -12,7 +12,8 @@ defmodule Vr.UserView do
   def render("user.json", %{user: user}) do
     %{id: user.id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      status: user.status
     }
   end
 end
