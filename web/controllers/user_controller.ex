@@ -1,6 +1,10 @@
 defmodule Vr.UserController do
   use Vr.Web, :controller
   alias Vr.User
+  alias Vr.Post
+  alias Vr.Asset
+
+
   #  import Ecto.Changeset, only: [put_change: 3]
 
   def index(conn, _params) do
@@ -90,4 +94,24 @@ defmodule Vr.UserController do
         end
     end
   end
+
+  def posts(conn, params) do
+    user_id = params["id"]
+    user = Repo.get!(User, user_id)
+    page = Post |> where([p], p.user_id == ^user_id) 
+            |> Repo.paginate(params)
+    posts = page.entries
+            |> Repo.preload([asset: :parts])
+            |> Repo.preload([:user])
+            |> Repo.preload([:tag])
+            |> Repo.preload([:cover])
+            |> Post.convert_time
+    conn 
+      |> Scrivener.Headers.paginate(page)
+      |> render("user-posts.json", %{user: user,  posts: posts})
+ 
+
+  end
+
+
 end

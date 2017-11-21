@@ -3,6 +3,7 @@ defmodule Vr.ValidationTest do
   import Vr.Factory
   alias Vr.User
   setup do
+    # now = DateTime.now
     user = insert(:user)
     token = User.generate_token(user)
     conn = build_conn() |> put_req_header( "accept", "application/json")
@@ -15,8 +16,8 @@ defmodule Vr.ValidationTest do
     assert json_response(conn, 200) == 
       %{"id" => user.id,
         "name" => user.name,
-        "email" => user.email
-      
+        "email" => user.email,
+        "status" => "registered"
       }
   end
   test "invalid token", %{conn: conn, user: user} do
