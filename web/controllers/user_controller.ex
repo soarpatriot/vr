@@ -7,9 +7,16 @@ defmodule Vr.UserController do
 
   #  import Ecto.Changeset, only: [put_change: 3]
 
-  def index(conn, _params) do
-    users = Repo.all(User)
-    render(conn, "index.json", users: users)
+  def index(conn, params) do
+    page = User
+            |> Repo.paginate(params)
+    users = page.entries
+    conn 
+      |> Scrivener.Headers.paginate(page)
+      |> render("index.json", users: users)
+ 
+      #users = Repo.all(User)
+      #render(conn, "index.json", users: users)
   end
 
   def create(conn, %{"user" => user_params}) do
