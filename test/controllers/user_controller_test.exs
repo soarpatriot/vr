@@ -130,7 +130,7 @@ defmodule Vr.UserControllerTest do
     # insert(:post, user_id: user.id, assets: [file1])
     conn = get conn, user_path(conn, :posts, user)
     assert response(conn, 200)
-    assert length(json_response(conn, 200)["data"]) == 1
+    assert length(json_response(conn, 200)["posts"]) == 1
  
   end
 

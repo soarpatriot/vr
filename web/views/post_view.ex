@@ -46,6 +46,28 @@ defmodule Vr.PostView do
       # Map.merge(base, file) |> Map.merge(user)
       Map.merge(base, user) |> Map.merge(tag)
   end
+  def render("post-with-assets.json", %{post: post}) do
+    base =  %{id: post.id,
+          title: post.title,
+          description: post.description,
+          from_now: post.from_now,
+          cover: render_one(post.cover, Vr.CoverView, "show.json"),
+          asset: render_one(post.asset, Vr.AssetView, "simple-file.json")}
+
+    tag = 
+      case !is_nil(post.tag) do 
+        true ->
+          %{tag: %{
+            code: post.tag.code,
+            name: post.tag.name
+          }}
+        false -> 
+          %{}
+      end
+
+    Map.merge(base, tag)
+  end
+
 
   def render("post.json", %{post: post}) do
     %{id: post.id,

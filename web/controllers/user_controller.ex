@@ -96,17 +96,19 @@ defmodule Vr.UserController do
   end
 
   def posts(conn, params) do
-
-    page = Post |> where([p], p.user_id == ^params["id"]) 
+    user_id = params["id"]
+    user = Repo.get!(User, user_id)
+    page = Post |> where([p], p.user_id == ^user_id) 
             |> Repo.paginate(params)
     posts = page.entries
             |> Repo.preload([asset: :parts])
             |> Repo.preload([:user])
             |> Repo.preload([:tag])
             |> Repo.preload([:cover])
+            |> Post.convert_time
     conn 
       |> Scrivener.Headers.paginate(page)
-      |> render(Vr.PostView, "index.json", posts: posts)
+      |> render("user-posts.json", %{user: user,  posts: posts})
  
 
   end

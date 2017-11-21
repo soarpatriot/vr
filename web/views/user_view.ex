@@ -17,4 +17,15 @@ defmodule Vr.UserView do
       # inserted_at: Vr.Convert.native_to_timestamp(user.inserted_at)
     }
   end
+
+  def render("user-posts.json", %{user: user, posts: posts}) do 
+    %{
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      status: user.status,
+      posts: render_many(posts, Vr.PostView, "post-with-assets.json")
+    }
+  end
+
 end
