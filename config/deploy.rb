@@ -107,5 +107,6 @@ namespace :deploy do
   #before :check, "docker:upload_compose"
   #before :publishing, "deploy:compose_down"
   after :published, :upload
+  before :finished, :change_right
   after :finished, :build
 end

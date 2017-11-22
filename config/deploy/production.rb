@@ -1,6 +1,6 @@
 set :stage, :production
 set :server_name, "47.93.174.156"
-set :branch, "dev"
+set :branch, "master"
 set :deploy_to, "/data/www/vr"
 set :mix_env, 'prod'
 set :user, 'soar'
