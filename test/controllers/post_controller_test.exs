@@ -135,4 +135,14 @@ defmodule Vr.PostControllerTest do
 
   end
 
+  test "one post's  comments", %{conn: conn} do 
+    user = insert(:user, name: "asdfads") 
+    post = insert(:post, user_id: user.id)
+    insert_list(3, :comment, post: post, user: user)
+
+    conn = get conn, post_path(conn, :comments, post)
+    assert response(conn, 200)
+    assert length(json_response(conn, 200)["data"]) == 3
+   
+  end
 end

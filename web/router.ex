@@ -46,9 +46,11 @@ defmodule Vr.Router do
     pipe_through :api
     pipe_through :authenticated
     get "/posts/my", PostController, :my
+    get "/posts/:id/comments", PostController, :comments
     resources "/posts", PostController, except: [:new, :edit, :index, :show]
     resources "/assets", AssetController, except: [:new, :edit]
     resources "/covers", CoverController, except: [:new, :edit]
+    resources "/comments", CommentController, except: [:new, :edit]
     resources "/tags", TagController, except: [:new, :edit]
     get "/validate", SessionController, :validate
   end

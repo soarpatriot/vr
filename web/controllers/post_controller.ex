@@ -1,6 +1,7 @@
 defmodule Vr.PostController do
   use Vr.Web, :controller
   alias Vr.Post
+  alias Vr.Comment
   alias Vr.Asset
 
   def index(conn, params) do
@@ -121,6 +122,19 @@ defmodule Vr.PostController do
     conn 
       |> Scrivener.Headers.paginate(page)
       |> render("index.json", posts: posts)
+ 
+  end
+
+  def comments(conn, params) do 
+    post_id = params["id"]
+
+    page = Comment |> where([c], c.post_id == ^post_id) 
+           |> Repo.paginate(params)
+    comments = page.entries
+              |> Repo.preload([:user])
+    conn 
+      |> Scrivener.Headers.paginate(page)
+      |> render(Vr.CommentView, "comments.json", comments: comments)
  
   end
 end

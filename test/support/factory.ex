@@ -23,6 +23,12 @@ defmodule Vr.Factory do
       post: build(:post)
     }
   end
+   def comment_factory do 
+    %Vr.Comment {
+      content: "df"
+    }
+
+  end
  
   def post_factory do 
     %Vr.Post {

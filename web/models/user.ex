@@ -8,6 +8,7 @@ defmodule Vr.User do
     field :crypted_password, :string
     field :status, StatusEnum, default: :registered
     field :password, :string, virtual: true
+    has_many :comments, Vr.Comment
     timestamps()
   end
   
