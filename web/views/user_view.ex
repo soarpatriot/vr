@@ -27,5 +27,10 @@ defmodule Vr.UserView do
       posts: render_many(posts, Vr.PostView, "post-with-assets.json")
     }
   end
-
+  
+  def render("token.json", %{token: token}) do 
+    %{
+      token: token
+    }
+  end
 end

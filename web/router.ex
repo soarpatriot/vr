@@ -47,6 +47,7 @@ defmodule Vr.Router do
     pipe_through :authenticated
     get "/posts/my", PostController, :my
     get "/posts/:id/comments", PostController, :comments
+    post "/users/qtoken", UserController, :qtoken
     resources "/posts", PostController, except: [:new, :edit, :index, :show]
     resources "/assets", AssetController, except: [:new, :edit]
     resources "/covers", CoverController, except: [:new, :edit]

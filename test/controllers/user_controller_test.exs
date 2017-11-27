@@ -136,4 +136,14 @@ defmodule Vr.UserControllerTest do
  
   end
 
+  test "qiniu token gen", %{conn: conn} do 
+    user = insert(:user)
+
+    token = User.generate_token(user)
+    conn = conn |> put_req_header( "accept", "application/json")
+                        |> put_req_header( "api-token", "Token: " <> token)
+ 
+    conn = post conn, user_path(conn, :qtoken)
+    assert String.length(json_response(conn, 200)["token"]) > 10
+  end
 end

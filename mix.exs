@@ -29,6 +29,7 @@ defmodule Vr.Mixfile do
                     :ecto_enum,
                     :timex_ecto,
                     :bamboo_smtp,
+                    :qiniu,
                     :scrivener_ecto, :phoenix_ecto, :postgrex]]
   end
 
@@ -65,6 +66,7 @@ defmodule Vr.Mixfile do
      {:ecto_enum, "~> 1.0.2"},
      {:timex, "~> 3.0"},
      {:timex_ecto, "~> 3.0"},
+     {:qiniu, "~> 0.4.0"},
      {:mock, "~> 0.2.0", only: :test},
      {:mellon, "~> 0.1.1"}]
   end

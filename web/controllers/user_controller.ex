@@ -120,5 +120,10 @@ defmodule Vr.UserController do
 
   end
 
-
+  def qtoken(conn, _params) do 
+    policy = Qiniu.PutPolicy.build("scope")
+    uptoken = Qiniu.Auth.generate_uptoken(policy)
+    conn 
+      |> render("token.json", %{token: uptoken})
+  end
 end
