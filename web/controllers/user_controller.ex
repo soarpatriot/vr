@@ -40,6 +40,12 @@ defmodule Vr.UserController do
     user = Repo.get!(User, id)
     render(conn, "show.json", user: user)
   end
+   
+  def me(conn, _params) do 
+    id = conn.assigns.credentials["user_id"]
+    user = Repo.get!(User, id)
+    render(conn, "show.json", user: user)
+  end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get!(User, id)

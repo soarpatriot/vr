@@ -146,4 +146,21 @@ defmodule Vr.UserControllerTest do
     conn = post conn, user_path(conn, :qtoken)
     assert String.length(json_response(conn, 200)["token"]) > 10
   end
+  test "get user me" do 
+    now = DateTime.utc_now()
+    user = insert(:user, inserted_at: now)
+
+    token = User.generate_token(user)
+    conn = conn |> put_req_header( "accept", "application/json")
+                        |> put_req_header( "api-token", "Token: " <> token)
+ 
+    conn = get conn, user_path(conn, :me)
+    assert json_response(conn, 200)["data"] == %{"id" => user.id,
+      "name" => user.name,
+      "email" => user.email,
+      "status" => "registered",
+      "inserted_at" => Vr.Convert.native_to_timestamp(now)
+    }
+  end
+
 end
