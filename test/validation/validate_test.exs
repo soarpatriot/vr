@@ -4,7 +4,7 @@ defmodule Vr.ValidationTest do
   alias Vr.User
   setup do
     now = DateTime.utc_now()
-    user = insert(:user, inserted_at: now)
+    user = insert(:user, inserted_at: now, avatar_url: "adfadsfa")
     token = User.generate_token(user)
     conn = build_conn() |> put_req_header( "accept", "application/json")
     {:ok, conn: conn, user: user, token: token, now: now} 
@@ -18,6 +18,7 @@ defmodule Vr.ValidationTest do
         "name" => user.name,
         "email" => user.email,
         "status" => "registered",
+        "avatar_url" => user.avatar_url, 
         "inserted_at" => Vr.Convert.native_to_timestamp(now)
       }
   end

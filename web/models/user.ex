@@ -5,6 +5,7 @@ defmodule Vr.User do
   schema "users" do
     field :name, :string
     field :email, :string
+    field :avatar_url, :string
     field :crypted_password, :string
     field :status, StatusEnum, default: :registered
     field :password, :string, virtual: true

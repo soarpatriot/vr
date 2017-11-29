@@ -18,6 +18,7 @@ defmodule Vr.SessionControllerTest do
         "name" => user.name,
         "email" => user.email,
         "status" => "registered", 
+        "avatar_url" => nil, 
         "inserted_at" => Vr.Convert.native_to_timestamp(now)
       }
   end

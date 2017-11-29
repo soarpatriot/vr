@@ -14,6 +14,7 @@ defmodule Vr.UserView do
       name: user.name,
       email: user.email,
       status: user.status,
+      avatar_url: user.avatar_url,
       inserted_at: Vr.Convert.native_to_timestamp(user.inserted_at)
     }
   end
@@ -24,6 +25,7 @@ defmodule Vr.UserView do
       name: user.name,
       email: user.email,
       status: user.status,
+      avatar_url: user.avatar_url,
       posts: render_many(posts, Vr.PostView, "post-with-assets.json")
     }
   end
