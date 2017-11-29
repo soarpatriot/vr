@@ -49,6 +49,29 @@ defmodule Vr.UserController do
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get!(User, id)
+    user_id = conn.assigns.credentials["user_id"]
+    changeset = User.changeset(user, user_params)
+    # IO.puts "user_id: #{user_id} #{is_integer(user_id)}, id: #{id} #{is_integer(id)}"
+    same = (user_id === String.to_integer(id))
+    case same do 
+      true ->
+        case Repo.update(changeset) do
+          {:ok, user} ->
+            render(conn, "show.json", user: user)
+          {:error, changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> render(Vr.ChangesetView, "error.json", changeset: changeset)
+        end
+      false ->
+        conn 
+            |> put_status(:unauthorized)
+            |> render(Vr.ChangesetView, "error.json", changeset: changeset)
+    end
+  end
+  
+  def avatar(conn, %{"id" => id, "user" => user_params}) do
+    user = Repo.get!(User, id)
     changeset = User.changeset(user, user_params)
 
     case Repo.update(changeset) do
@@ -60,6 +83,7 @@ defmodule Vr.UserController do
         |> render(Vr.ChangesetView, "error.json", changeset: changeset)
     end
   end
+
 
   def delete(conn, %{"id" => id}) do
     user = Repo.get!(User, id)

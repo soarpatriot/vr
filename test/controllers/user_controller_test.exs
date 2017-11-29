@@ -51,17 +51,44 @@ defmodule Vr.UserControllerTest do
     assert json_response(conn, 422)["errors"] != %{}
   end
 
-  test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = put build_conn(), user_path(conn, :update, user), user: @valid_attrs
+  test "updates and renders chosen resource when data is valid" do
+    now = DateTime.utc_now()
+    user = insert(:user, inserted_at: now)
+
+    token = User.generate_token(user)
+    conn = conn |> put_req_header( "accept", "application/json")
+                        |> put_req_header( "api-token", "Token: " <> token)
+ 
+ 
+    conn = put conn, user_path(conn, :update, user), user: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
     m = %{name: @valid_attrs[:name], email: @valid_attrs[:email]}
     assert Repo.get_by(User, m)
   end
+  test "updates error when update unauthorized" do
+    now = DateTime.utc_now()
+    user = insert(:user, inserted_at: now)
 
-  test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = put build_conn(), user_path(conn, :update, user), user: @invalid_attrs
+    token = User.generate_token(user)
+    conn = conn |> put_req_header( "accept", "application/json")
+                        |> put_req_header( "api-token", "Token: " <> token)
+ 
+     
+    user1 = insert(:user, inserted_at: now, name: "adfadsfasdfads")
+    conn = put conn, user_path(conn, :update, user1), user: @valid_attrs
+    assert json_response(conn, 401)
+  end
+
+
+  test "does not update chosen resource and renders errors when data is invalid" do
+    now = DateTime.utc_now()
+    user = insert(:user, inserted_at: now)
+
+    token = User.generate_token(user)
+    conn = conn |> put_req_header( "accept", "application/json")
+                        |> put_req_header( "api-token", "Token: " <> token)
+ 
+    conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 

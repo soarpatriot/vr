@@ -47,6 +47,7 @@ defmodule Vr.Router do
     pipe_through :authenticated
     get "/posts/my", PostController, :my
     get "/posts/:id/comments", PostController, :comments
+    put "/users/:id", UserController, :update
     post "/users/qtoken", UserController, :qtoken
     get "/users/me", UserController, :me
     resources "/posts", PostController, except: [:new, :edit, :index, :show]
@@ -67,7 +68,7 @@ defmodule Vr.Router do
     get "/users/activation", UserController, :activation
     get "/users/:id/posts", UserController, :posts
     post "/users/reactivation", UserController, :reactivation
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit, :update]
     resources "/parts", PartController, except: [:new, :edit]
     post "/login", SessionController, :create
   end
