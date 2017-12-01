@@ -26,6 +26,15 @@ defmodule Vr.User do
     |> unique_constraint(:email)
     |> unique_constraint(:name)
   end
+  def update_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:name, :email, :password, :status, :avatar_url])
+    |> validate_format(:email, ~r/@/)
+    |> validate_length(:password, min: 6)
+    |> unique_constraint(:email)
+    |> unique_constraint(:name)
+  end
+
 
   def registration_changeset(model, params \\ :empty) do
     model

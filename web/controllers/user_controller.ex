@@ -50,7 +50,7 @@ defmodule Vr.UserController do
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get!(User, id)
     user_id = conn.assigns.credentials["user_id"]
-    changeset = User.changeset(user, user_params)
+    changeset = User.update_changeset(user, user_params)
     # IO.puts "user_id: #{user_id} #{is_integer(user_id)}, id: #{id} #{is_integer(id)}"
     same = (user_id === String.to_integer(id))
     case same do 
