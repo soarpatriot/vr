@@ -42,7 +42,7 @@ defmodule Vr.User do
     |> put_password_hash
   end
  
-  defp put_password_hash(changeset) do
+  def put_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
         put_change(changeset, :crypted_password, Comeonin.Bcrypt.hashpwsalt(pass))
@@ -72,6 +72,13 @@ defmodule Vr.User do
     verify_url = "#{Application.get_env(:vr, Vr.Assets)[:host_url]}/#/activation?code=#{code}"
     Vr.Email.validate_html_email(user.email, verify_url, user.name) |> Vr.Mailer.deliver_later
   end
+  def send_forgot_email(user) do
+    code = gen_verify(user.id)
+    forgot_url = "#{Application.get_env(:vr, Vr.Assets)[:host_url]}/#/forgot?code=#{code}"
+    Vr.Email.forgot_html_email(user.email, forgot_url, user.name) |> Vr.Mailer.deliver_later
+  end
+
+
   def gen_verify(user_id) do 
     # 3600s * 5
      %{user_id: user_id, exp: current_time()+ 3600 * 5} 

@@ -1,5 +1,6 @@
 defmodule Vr.UserControllerTest do
   use Vr.ConnCase
+  require Ecto
   import Vr.Factory
   import Mock
 
@@ -63,13 +64,13 @@ defmodule Vr.UserControllerTest do
     assert Repo.get_by(User, m)
   end
 
-  test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
+  test "does not update chosen resource and renders errors when data is invalid" do
     user = Repo.insert! %User{}
     token = User.generate_token(user)
     conn = build_conn() |> put_req_header( "accept", "application/json")
                         |> put_req_header( "api-token", "Token: " <> token)
  
-    conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
+    conn = put conn, user_path(build_conn(), :update, user), user: @invalid_attrs
     assert json_response(conn, 200)
     # assert json_response(conn, 422)["errors"] != %{}
   end
@@ -96,6 +97,34 @@ defmodule Vr.UserControllerTest do
     assert response(conn, 200)
     assert json_response(conn, 200)["code"] == 0
   end
+
+  test "forgot password" do 
+    # IO.puts "111"
+    user_params = %{email: "23423423@qq.com", name: "aadfasd", password: "23423423423"}
+    changeset = User.registration_changeset(%User{}, user_params) 
+
+    user = Repo.insert! changeset 
+    # IO.inspect user
+    conn = get build_conn(), user_path(build_conn(), :forgot), email: user.email
+    assert response(conn, 200)
+    assert json_response(conn, 200)["code"] == 0
+  end
+  test "change password" do 
+    new_password = "333333"
+    user_params = %{email: "23423423@qq.com", name: "aadfasd", password: "23423423423"}
+    changeset = User.registration_changeset(%User{}, user_params) 
+
+    user = Repo.insert! changeset 
+    conn = patch build_conn(), user_path(build_conn(), :pwd), email: user.email, password: new_password
+    assert response(conn, 200)
+
+
+    id = json_response(conn,200)["data"]["id"]
+    u = Repo.get(User, id)
+    assert u.crypted_password !== user.crypted_password
+  end
+
+
 
   test "invalid active code", %{conn: conn} do 
     user_params = %{email: "23423423@qq.com", name: "aadfasd", password: "23423423423"}
@@ -140,7 +169,7 @@ defmodule Vr.UserControllerTest do
     file = insert(:asset, @file_attrs)
     insert(:post, user_id: user.id, asset: file)
     # insert(:post, user_id: user.id, assets: [file1])
-    conn = get conn, user_path(conn, :posts, user)
+    conn = get build_conn(), user_path(build_conn(), :posts, user)
     assert response(conn, 200)
     assert length(json_response(conn, 200)["posts"]) == 1
  
@@ -161,10 +190,10 @@ defmodule Vr.UserControllerTest do
     user = insert(:user, inserted_at: now)
 
     token = User.generate_token(user)
-    conn = conn |> put_req_header( "accept", "application/json")
+    conn = build_conn() |> put_req_header( "accept", "application/json")
                         |> put_req_header( "api-token", "Token: " <> token)
  
-    conn = get conn, user_path(conn, :me)
+    conn = get conn, user_path(build_conn(), :me)
     assert json_response(conn, 200)["data"] == %{"id" => user.id,
       "name" => user.name,
       "email" => user.email,

@@ -65,12 +65,15 @@ defmodule Vr.Router do
     get "/posts/:id", PostController, :show 
     get "/highlights/lastest", HighlightController, :lastest 
     resources "/highlights", HighlightController, except: [:new, :edit]
+    get "/users/forgot", UserController, :forgot
     get "/users/activation", UserController, :activation
     get "/users/:id/posts", UserController, :posts
+    patch "/users/pwd", UserController, :pwd
     post "/users/reactivation", UserController, :reactivation
     resources "/users", UserController, except: [:new, :edit, :update]
     resources "/parts", PartController, except: [:new, :edit]
     post "/login", SessionController, :create
+    get "/test", SessionController, :test
   end
 
   scope "/admin", ExAdmin do

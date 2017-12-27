@@ -26,4 +26,10 @@ defmodule Vr.SessionController do
     |> put_status(200)
     |> render(Vr.UserView,"user.json", user: user)
   end  
+
+  def test(conn, _params) do  
+    conn
+    |> put_status(200)
+    |> render("error.json", msg: "邮箱或者密码错误, 或用户未激活！")
+  end  
 end

@@ -2,7 +2,6 @@ defmodule Vr.UserController do
   use Vr.Web, :controller
   alias Vr.User
   alias Vr.Post
-  alias Vr.Asset
 
 
   #  import Ecto.Changeset, only: [put_change: 3]
@@ -129,6 +128,34 @@ defmodule Vr.UserController do
             User.send_verify_email(user)
             conn |> render(Vr.ChangesetView, "result.json", %{code: 0, msg: "已发送激活邮件到您的邮箱，5小时内有效，请注意查收！"})
         end
+    end
+  end
+
+  @doc """
+    user forgot password
+  """
+  def forgot(conn, %{"email" => email}) do 
+    # user = Vr.Repo.get_by(User, email: email)
+    case Vr.Repo.get_by(User, email: email) do
+      nil -> 
+        conn |> render(Vr.ChangesetView, "result.json", %{code: 1, msg: "此邮箱未关联账号，请检查您的邮箱是否填写正确！"})
+      user -> 
+        User.send_forgot_email(user)
+        conn |> render(Vr.ChangesetView, "result.json", %{code: 0, msg: "已发送修改邮件到您的邮箱，5小时内有效，请注意查收！"})
+    end
+  end
+
+  def pwd(conn, %{"email" => email,  "password" => password}) do 
+    user = Vr.Repo.get_by(User, email: email) 
+    changeset = User.registration_changeset(user, %{"password": password})
+
+    case Repo.update(changeset) do
+      {:ok, user} ->
+        render(conn, "show.json", user: user)
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(Vr.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
