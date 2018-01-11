@@ -17,7 +17,19 @@ config :vr, Vr.Endpoint,
 
 config :vr, Vr.Gettext, default_locale: "zh"
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+config :logger, 
+  #:console, 
+  backends: [:console, {LoggerFileBackend, :info_log}, {LoggerFileBackend, :error_log}],
+  format: "[$level] $message\n"
+
+config :logger, :info_log,
+  truncate: 5240880,
+  path: "log/info.log",
+  level: :info
+config :logger, :error_log,
+  truncate: 5240880,
+  path: "log/error.log",
+  level: :error
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
