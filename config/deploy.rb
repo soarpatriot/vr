@@ -102,6 +102,7 @@ namespace :deploy do
     invoke "docker:upload_compose_compile"
     invoke "docker:upload_compose"
     invoke "docker:upload_web"
+    invoke "docker:upload_db"
   end
   before :cleanup, :change_right
   #before :check, "docker:upload_compose"

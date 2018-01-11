@@ -1,18 +1,6 @@
 version: '3'
 services: 
-  db: 
-    image: postgres:9.6.5
-    container_name: postgres
-    restart: always
-    network_mode: "bridge"
-    expose: 
-      - "5432"
-    volumes: 
-      - /pgdata:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=soar1234
- 
-  #node: 
+  # node: 
   #  build: ./node
   #  container_name: vr-node
   #  image: soar/vr-node:1.0.1
@@ -32,5 +20,5 @@ services:
     #"npm install && mix deps.get && mix ecto.create && mix ecto.migrate && iex -S mix phoenix.server"
     ports: 
       - 4000:4000
-    links: 
-      - db
+    external_links:
+      - postgres:db

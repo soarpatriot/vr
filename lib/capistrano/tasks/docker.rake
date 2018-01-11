@@ -13,6 +13,15 @@ namespace :docker do
       info "Uploaded to '#{fetch(:server_name)}@#{dest}'"
     end
   end
+  task :upload_db do 
+    on roles :web do 
+      dest = "#{current_path}/docker-compose-db.yml"
+      upload! from_template("docker-compose-db.yml.erb"), dest
+      info "Uploaded to '#{fetch(:server_name)}@#{dest}'"
+    end
+  end
+
+
 
 
   task :upload_web do 
