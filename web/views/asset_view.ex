@@ -24,6 +24,7 @@ defmodule Vr.AssetView do
       mimetype: asset.mimetype,
       full: asset.full,
       murl: asset.murl,
+      size: asset.size,
       parent: asset.parent,
       parts: render_many(asset.parts, Vr.PartView, "show.json")
     }

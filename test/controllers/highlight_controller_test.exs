@@ -42,6 +42,7 @@ defmodule Vr.HighlightControllerTest do
         "id" => file.id,
         "full"=> file.full,
         "murl" => file.murl,
+        "size" => file.size,
         "mimetype" => file.mimetype,
         "parent" => file.parent,
         "parts" => []

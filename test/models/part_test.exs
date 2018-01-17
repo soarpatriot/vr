@@ -3,7 +3,7 @@ defmodule Vr.PartTest do
 
   alias Vr.Part
 
-  @valid_attrs %{name: "some content"}
+  @valid_attrs %{name: "some content", size: 10}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

@@ -3,6 +3,7 @@ defmodule Vr.Part do
 
   schema "parts" do
     field :name, :string
+    field :size, :integer
     belongs_to :asset, Vr.Asset
 
     timestamps()
@@ -13,12 +14,13 @@ defmodule Vr.Part do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name])
-    |> validate_required([:name])
+    |> cast(params, [:name, :size])
+    |> validate_required([:name, :size])
   end
 
   def list([head | tail]) do 
-    [Ecto.Changeset.change(%Vr.Part{},name: head) | list(tail) ] 
+    [changeset(%Vr.Part{}, head) | list(tail) ]
+    #  [Ecto.Changeset.change(%Vr.Part{},name: head, size: ) | list(tail) ] 
   end
 
   def list([]) do 

@@ -2,7 +2,7 @@ defmodule Vr.PartControllerTest do
   use Vr.ConnCase
 
   alias Vr.Part
-  @valid_attrs %{name: "some content"}
+  @valid_attrs %{name: "some content", size: 20}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -18,6 +18,7 @@ defmodule Vr.PartControllerTest do
     part = Repo.insert! %Part{}
     conn = get conn, part_path(conn, :show, part)
     assert json_response(conn, 200)["data"] == %{"id" => part.id,
+      "size" => part.size,
       "name" => part.name}
   end
 

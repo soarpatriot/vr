@@ -8,7 +8,7 @@ defmodule Vr.AssetControllerTest do
    full: "some content", 
    murl: "http://www.yun.com",
    parent: "parent",
-   parts: ["a.txt", "b.obj"],
+   parts: [%{name: "a.txt", size: 1}, %{name: "b.obj", size: 3}],
    mimetype: "some content", relative: "some content", size: 42, post_id: 12}
   @invalid_attrs %{}
 
@@ -56,7 +56,7 @@ defmodule Vr.AssetControllerTest do
     parts = @valid_attrs[:parts]
     # IO.puts "parts:"
     # IO.inspect parts
-    assert Repo.get_by(Vr.Part, %{name: hd(parts)})
+    assert Repo.get_by(Vr.Part, %{name: hd(parts).name})
     search_by = Map.drop(params, [:parts])
     assert Repo.get_by(Asset, search_by)
   end

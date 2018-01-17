@@ -11,6 +11,7 @@ defmodule Vr.PartView do
 
   def render("part.json", %{part: part}) do
     %{id: part.id,
+      size: part.size,
       name: part.name}
   end
 end
