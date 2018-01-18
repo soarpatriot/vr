@@ -43,6 +43,13 @@ defmodule Vr.PartController do
     end
   end
 
+  def update_all(conn, _params) do
+    parts = Vr.Repo.all(Vr.Part) |>  Vr.Repo.preload([:asset]) 
+    Part.part_size(parts)
+    render(conn, Vr.ChangesetView, "result.json", %{code: 0, msg: "更新完毕"})
+  end
+
+
   def delete(conn, %{"id" => id}) do
     part = Repo.get!(Part, id)
 

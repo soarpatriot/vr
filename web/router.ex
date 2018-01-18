@@ -71,6 +71,7 @@ defmodule Vr.Router do
     patch "/users/pwd", UserController, :pwd
     post "/users/reactivation", UserController, :reactivation
     resources "/users", UserController, except: [:new, :edit, :update]
+    get "/parts/migration", PartController, :update_all
     resources "/parts", PartController, except: [:new, :edit]
     post "/login", SessionController, :create
     get "/test", SessionController, :test

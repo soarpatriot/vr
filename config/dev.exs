@@ -44,6 +44,6 @@ config :vr, Vr.Repo,
   hostname: "localhost",
   pool_size: 10
 config :vr, Vr.Assets,
-  host_url: "http://localhost:8080"
-
+  host_url: "http://localhost:8080",
+  asset_url: "http://localhost:3000"
 import_config "dev.secret.exs"

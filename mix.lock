@@ -33,6 +33,7 @@
   "inflex": {:hex, :inflex, "1.9.0", "2bef01a84437bca0a12fc107821ae7771b0ba847dccab5d1cd61f35972e66813", [:mix], [], "hexpm"},
   "joken": {:hex, :joken, "1.5.0", "42a0953e80bd933fc98a0874e156771f78bf0e92abe6c3a9c22feb6da28efb0b", [:mix], [{:jose, "~> 1.8", [hex: :jose, repo: "hexpm", optional: false]}, {:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: true]}, {:poison, "~> 1.5 or ~> 2.0 or ~> 3.0", [hex: :poison, repo: "hexpm", optional: true]}], "hexpm"},
   "jose": {:hex, :jose, "1.8.4", "7946d1e5c03a76ac9ef42a6e6a20001d35987afd68c2107bcd8f01a84e75aa73", [:mix, :rebar3], [{:base64url, "~> 0.0.1", [hex: :base64url, repo: "hexpm", optional: false]}], "hexpm"},
+  "json": {:hex, :json, "1.0.2", "fa75ed4f355cd4ab468c25588171f8002a7274d3d5fb376c18822ddfc7c33f1f", [], [], "hexpm"},
   "keccakf1600": {:hex, :keccakf1600, "2.0.0", "69d02d844a101bf3c75484c9e334fd04b0f57280727e881cac3bd8240432f43a", [:rebar3], [], "hexpm"},
   "libdecaf": {:hex, :libdecaf, "0.0.4", "c1caa4c4aaea356f89372debd0a672251111c2b2236e1b1e8a0f5bc271b60af4", [:rebar3], [], "hexpm"},
   "libsodium": {:hex, :libsodium, "0.0.10", "24584e6f5a60aed53542054c15fb31719bbf2d811d9a84f626734faf64d41304", [:rebar3], [], "hexpm"},

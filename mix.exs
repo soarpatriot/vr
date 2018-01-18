@@ -67,6 +67,7 @@ defmodule Vr.Mixfile do
      {:timex, "~> 3.0"},
      {:timex_ecto, "~> 3.0"},
      {:qiniu, "~> 0.4.0"},
+     {:json, "~> 1.0"},
      {:logger_file_backend, "~> 0.0.10"},
      {:mock, "~> 0.2.0", only: :test},
      {:mellon, "~> 0.1.1"}]
